@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "allowJs": true,
+    "paths": {
+      "@blocks/*": ["./src/blocks/*"],
+      "@editor": ["./src/editor/Editor.vue"],
+      "@renderer/*": ["./src/renderer/*"],
+      "@rich-text": ["./src/rich-text/RichText.vue"],
+    },
+    "types": ["element-plus/global"]
+  },
+}

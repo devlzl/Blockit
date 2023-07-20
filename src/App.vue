@@ -1,9 +1,9 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
+import Editor from '@editor'
 </script>
 
 <template>
-  <HelloWorld msg="Blockit" />
+  <Editor />
 </template>
 
 <style scoped>
