@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "element-plus": "^2.3.8",
-    "vue": "^3.3.4"
+    "vue": "^3.3.4",
+    "yjs": "^13.6.7"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.2.3",
