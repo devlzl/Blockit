@@ -10,7 +10,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <canvas ref="canvasRef"></canvas>
+  <div mode="whiteboard">
+    <canvas ref="canvasRef"></canvas>
+  </div>
 </template>
 
 <style scoped>

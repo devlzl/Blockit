@@ -1,11 +1,23 @@
 <script setup>
-import TextBlock from '@blocks/text-block/TextBlock.vue'
-import TodoBlock from '@blocks/todo-block/TodoBlock.vue'
+import { builtinBlockViews } from '@blocks'
+import { Block } from '@store'
+
+
+const { pageBlock } = defineProps({
+  pageBlock: Block,
+})
+
+const noteBlocks = pageBlock.children
 </script>
 
 <template>
-  <TextBlock text="hello world" />
-  <TodoBlock text="todo demo" />
+  <div mode="docs">
+    <component
+      v-for="block of noteBlocks"
+      :is="builtinBlockViews[block.type]"
+      :noteBlock="block">
+    </component>
+  </div>
 </template>
 
 <style scoped>

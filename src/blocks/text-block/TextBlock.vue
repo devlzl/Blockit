@@ -1,9 +1,12 @@
 <script setup>
 import RichText from '@rich-text'
+import { Block } from '@store'
 
-defineProps({
-  text: String,
+
+const { block } = defineProps({
+  block: Block,
 })
+const text = block.props.text
 </script>
 
 <template>

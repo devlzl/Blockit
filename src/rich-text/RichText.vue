@@ -1,5 +1,5 @@
 <script setup>
-defineProps({
+const { text } = defineProps({
   text: String,
 })
 </script>

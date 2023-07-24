@@ -3,10 +3,11 @@
     "outDir": "./dist",
     "allowJs": true,
     "paths": {
-      "@blocks/*": ["./src/blocks/*"],
+      "@blocks": ["./src/blocks/index.js"],
       "@editor": ["./src/editor/Editor.vue"],
       "@renderer/*": ["./src/renderer/*"],
       "@rich-text": ["./src/rich-text/RichText.vue"],
+      "@store": ["./src/store/_main.js"],
     },
     "types": ["element-plus/global"]
   },
