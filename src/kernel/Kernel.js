@@ -37,4 +37,11 @@ export class Kernel {
       this.yText.insert(index, text)
     })
   }
+
+  deleteText(kernelRange) {
+    this.yText.doc.transact(() => {
+      const { index, length } = kernelRange
+      this.yText.delete(index, length)
+    })
+  }
 }

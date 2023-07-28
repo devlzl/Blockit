@@ -8,9 +8,9 @@ export class DeltaService {
   }
 
   render() {
-    const value = this.delta[0].insert
+    const value = this.delta[0]?.insert ?? ''
     const rootElement = this._kernel.rootElement
-    rootElement.innerText = value
+    rootElement.textContent = value
 
     const kernelRange = this._kernel.getKernelRange()
     const range = this._kernel.toRange(kernelRange)

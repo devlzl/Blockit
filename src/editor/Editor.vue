@@ -54,7 +54,7 @@ onMounted(() => {
     :is="builtinBlockViews.page"
     :pageBlock="pageBlock">
   </component> -->
-  <div class="text" ref="textRef"></div>
+  <div class="text" ref="textRef" style="white-space: break-spaces;"></div>
 </template>
 
 <style scoped>
