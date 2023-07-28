@@ -1,8 +1,15 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import { Page, Text } from '@store'
 import Toolbar from './components/Toolbar.vue'
 import { builtinBlockSchemas, builtinBlockViews } from '@blocks'
+import { Kernel } from '@kernel'
+
+
+const { kernel } = defineProps({
+  kernel: Kernel,
+})
+defineEmits(['update'])
 
 
 const mode = ref('docs')
@@ -26,7 +33,13 @@ function createPageBlock() {
   const textBlock = page.addBlock('text', { text: 'hello world' }, noteBlock)
   return pageBlock
 }
-const pageBlock = createPageBlock()
+// const pageBlock = createPageBlock()
+
+
+const textRef = ref(null)
+onMounted(() => {
+  kernel.mount(textRef.value)
+})
 </script>
 
 <template>
@@ -37,10 +50,11 @@ const pageBlock = createPageBlock()
     active-value="whiteboard" active-text="Whiteboard"
   />
   <Toolbar :pageBlock="pageBlock" />
-  <component
+  <!-- <component
     :is="builtinBlockViews.page"
     :pageBlock="pageBlock">
-  </component>
+  </component> -->
+  <div class="text" ref="textRef"></div>
 </template>
 
 <style scoped>
