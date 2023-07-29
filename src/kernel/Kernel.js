@@ -13,17 +13,24 @@ export class Kernel {
     this.eventService = new EventService(this)
     this.attributeService = new AttributeService(this)
     this.deltaService = new DeltaService(this)
-    this.events = {}
+    this.events = {
+      deltaUpdate: new EventEmitter(),
+    }
     // 
-    this.getKernelRange = () => this.rangeService.getKernelRange()
-    this.setKernelRange = (kernelRange) => this.rangeService.setKernelRange(kernelRange)
-    this.toKernelRange = (range) => this.rangeService.toKernelRange(range)
-    this.toRange = (kernelRange) => this.rangeService.toRange(kernelRange)
+    this.getKernelRange = this.rangeService.getKernelRange.bind(this.rangeService)
+    this.setKernelRange = this.rangeService.setKernelRange.bind(this.rangeService)
+    this.toKernelRange = this.rangeService.toKernelRange.bind(this.rangeService)
+    this.toRange = this.rangeService.toRange.bind(this.rangeService)
+    this.setRange = this.rangeService.setRange.bind(this.rangeService)
+  }
+
+  get deltas() {
+    return this.deltaService.deltas
   }
 
   mount(rootElement) {
     this.yText.observe(() => {
-      this.deltaService.render()
+      this.events.deltaUpdate.emit()
     })
     this.rootElement = rootElement
     this.rootElement.contentEditable = 'true'
@@ -42,6 +49,13 @@ export class Kernel {
     this.yText.doc.transact(() => {
       const { index, length } = kernelRange
       this.yText.delete(index, length)
+    })
+  }
+
+  formatText(kernelRange, format) {
+    this.yText.doc.transact(() => {
+      const { index, length } = kernelRange
+      this.yText.format(index, length, format)
     })
   }
 }

@@ -9,7 +9,7 @@ export default defineConfig({
     alias: {
       '@blocks': path.resolve(__dirname, 'src/blocks/index.js'),
       '@editor': path.resolve(__dirname, 'src/editor/Editor.vue'),
-      '@kernel': path.resolve(__dirname, 'src/kernel/Kernel.js'),
+      '@kernel': path.resolve(__dirname, 'src/kernel'),
       '@renderer': path.resolve(__dirname, 'src/renderer'),
       '@store': path.resolve(__dirname, 'src/store/_main.js'),
     }

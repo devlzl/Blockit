@@ -5,7 +5,7 @@
     "paths": {
       "@blocks": ["./src/blocks/index.js"],
       "@editor": ["./src/editor/Editor.vue"],
-      "@kernel": ["./src/kernel/Kernel.js"],
+      "@kernel/*": ["./src/kernel/*"],
       "@renderer/*": ["./src/renderer/*"],
       "@store": ["./src/store/_main.js"],
     },

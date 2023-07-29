@@ -1,17 +1,25 @@
 <script setup>
-import { Block } from '@store'
+import { Kernel } from '@kernel/Kernel'
 
 
-const { pageBlock } = defineProps({
-  pageBlock: Block,
+const { kernel } = defineProps({
+  kernel: Kernel,
 })
 
-function addTextBlock() {
-  const note = pageBlock.children[0]
-  pageBlock.page.addBlock('text', { text: 'new text block' }, note)
+function toggleStyle(attributeName) {
+  const kernelRange = kernel.getKernelRange()
+  kernel.formatText(kernelRange, {
+    [attributeName]: true,
+  })
 }
 </script>
 
 <template>
-  <el-button @click="addTextBlock">Add Text Block</el-button>
+  <div class="toolbar">
+    <el-button class="bold" @click="toggleStyle('bold')">bold</el-button>
+    <el-button class="italic" @click="toggleStyle('italic')">italic</el-button>
+    <el-button class="underline" @click="toggleStyle('underline')">underline</el-button>
+    <el-button class="del" @click="toggleStyle('del')">del</el-button>
+    <el-button class="code" @click="toggleStyle('code')">code</el-button>
+  </div>
 </template>

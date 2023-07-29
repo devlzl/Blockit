@@ -1,15 +1,11 @@
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { Page, Text } from '@store'
 import Toolbar from './components/Toolbar.vue'
 import { builtinBlockSchemas, builtinBlockViews } from '@blocks'
-import { Kernel } from '@kernel'
-
-
-const { kernel } = defineProps({
-  kernel: Kernel,
-})
-defineEmits(['update'])
+import RichText from '@kernel/RichText.vue'
+import { Kernel } from '@kernel/Kernel'
+import * as Y from 'yjs'
 
 
 const mode = ref('docs')
@@ -36,10 +32,9 @@ function createPageBlock() {
 // const pageBlock = createPageBlock()
 
 
-const textRef = ref(null)
-onMounted(() => {
-  kernel.mount(textRef.value)
-})
+const yDoc = new Y.Doc()
+const yText = yDoc.getText()
+const kernel = new Kernel(yText)
 </script>
 
 <template>
@@ -49,12 +44,12 @@ onMounted(() => {
     inactive-value="docs" inactive-text="Docs"
     active-value="whiteboard" active-text="Whiteboard"
   />
-  <Toolbar :pageBlock="pageBlock" />
+  <Toolbar :kernel="kernel" />
   <!-- <component
     :is="builtinBlockViews.page"
     :pageBlock="pageBlock">
   </component> -->
-  <div class="text" ref="textRef" style="white-space: break-spaces;"></div>
+  <RichText :kernel="kernel" />
 </template>
 
 <style scoped>

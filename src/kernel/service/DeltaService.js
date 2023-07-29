@@ -3,21 +3,7 @@ export class DeltaService {
     this._kernel = kernel
   }
 
-  get delta() {
+  get deltas() {
     return this._kernel.yText.toDelta()
-  }
-
-  render() {
-    const value = this.delta[0]?.insert ?? ''
-    const rootElement = this._kernel.rootElement
-    rootElement.textContent = value
-
-    const kernelRange = this._kernel.getKernelRange()
-    const range = this._kernel.toRange(kernelRange)
-
-    const selection = window.getSelection()
-    const currentRange = selection.getRangeAt(0)
-    selection.removeRange(currentRange)
-    selection.addRange(range)
   }
 }
