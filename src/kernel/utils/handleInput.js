@@ -99,7 +99,6 @@ function handleDeleteSoftLineBackward(kernel, data) {
       length: length,
     })
   } else {
-    console.log('else')
     kernel.setKernelRange({
       index: 0,
       length: 0,
