@@ -17,7 +17,7 @@ onMounted(() => {
 
 const deltas = ref([])
 kernel.events.deltaUpdate.on(async () => {
-  deltas.value = kernel.deltas
+  deltas.value = kernel.getDeltas()
   await nextTick()
   const kernelRange = kernel.getKernelRange()
   const range = kernel.toRange(kernelRange)

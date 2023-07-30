@@ -22,10 +22,8 @@ export class Kernel {
     this.toKernelRange = this.rangeService.toKernelRange.bind(this.rangeService)
     this.toRange = this.rangeService.toRange.bind(this.rangeService)
     this.setRange = this.rangeService.setRange.bind(this.rangeService)
-  }
-
-  get deltas() {
-    return this.deltaService.deltas
+    this.getDeltas = this.deltaService.getDeltas.bind(this.deltaService)
+    this.getDeltasByKernalRange = this.deltaService.getDeltasByKernalRange.bind(this.deltaService)
   }
 
   mount(rootElement) {

@@ -8,8 +8,10 @@ const { kernel } = defineProps({
 
 function toggleStyle(attributeName) {
   const kernelRange = kernel.getKernelRange()
+  const deltas = kernel.getDeltasByKernalRange(kernelRange)
+  const formatted = deltas.every(delta => delta.attributes?.[attributeName])
   kernel.formatText(kernelRange, {
-    [attributeName]: true,
+    [attributeName]: !formatted,
   })
 }
 </script>
