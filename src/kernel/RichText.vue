@@ -1,17 +1,22 @@
 <script setup>
+import * as Y from 'yjs'
 import { Kernel } from './Kernel'
 import { nextTick, onMounted, ref } from 'vue'
 import RichTextElement from './components/RichTextElement.vue'
 
 
-const { kernel } = defineProps({
-  kernel: Kernel,
+const { text } = defineProps({
+  text: String,
 })
 
 
+const yDoc = new Y.Doc()
+const yText = yDoc.getText()
+const kernel = new Kernel(yText)
 const kernelRef = ref(null)
 onMounted(() => {
   kernel.mount(kernelRef.value)
+  kernel.insertText(text, {}, { index: 0, length: 0 })
 })
 
 

@@ -70,8 +70,10 @@ export class RangeService {
 
   setRange(range) {
     const selection = window.getSelection()
-    const currentRange = selection.getRangeAt(0)
-    selection.removeRange(currentRange)
+    if (selection.rangeCount) {
+      const currentRange = selection.getRangeAt(0)
+      selection.removeRange(currentRange)
+    }
     selection.addRange(range)
   }
 }

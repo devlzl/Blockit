@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import RichText from '@rich-text'
+import RichText from '@kernel/RichText.vue'
 
 defineProps({
   text: String,

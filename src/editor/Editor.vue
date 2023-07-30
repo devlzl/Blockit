@@ -3,9 +3,6 @@ import { ref, watch } from 'vue'
 import { Page, Text } from '@store'
 import Toolbar from './components/Toolbar.vue'
 import { builtinBlockSchemas, builtinBlockViews } from '@blocks'
-import RichText from '@kernel/RichText.vue'
-import { Kernel } from '@kernel/Kernel'
-import * as Y from 'yjs'
 
 
 const mode = ref('docs')
@@ -29,12 +26,7 @@ function createPageBlock() {
   const textBlock = page.addBlock('text', { text: 'hello world' }, noteBlock)
   return pageBlock
 }
-// const pageBlock = createPageBlock()
-
-
-const yDoc = new Y.Doc()
-const yText = yDoc.getText()
-const kernel = new Kernel(yText)
+const pageBlock = createPageBlock()
 </script>
 
 <template>
@@ -44,12 +36,11 @@ const kernel = new Kernel(yText)
     inactive-value="docs" inactive-text="Docs"
     active-value="whiteboard" active-text="Whiteboard"
   />
-  <Toolbar :kernel="kernel" />
-  <!-- <component
+  <!-- <Toolbar :kernel="kernel" /> -->
+  <component
     :is="builtinBlockViews.page"
     :pageBlock="pageBlock">
-  </component> -->
-  <RichText :kernel="kernel" />
+  </component>
 </template>
 
 <style scoped>
