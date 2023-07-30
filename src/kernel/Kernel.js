@@ -15,6 +15,7 @@ export class Kernel {
     this.deltaService = new DeltaService(this)
     this.events = {
       deltaUpdate: new EventEmitter(),
+      selectionChange: new EventEmitter(),
     }
     // 
     this.getKernelRange = this.rangeService.getKernelRange.bind(this.rangeService)

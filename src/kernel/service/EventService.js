@@ -10,6 +10,7 @@ export class EventService {
     const range = document.getSelection().getRangeAt(0)
     const kernelRange = this._kernel.toKernelRange(range)
     this._kernel.setKernelRange(kernelRange)
+    this._kernel.events.selectionChange.emit()
   }
 
   _onBeforeInput(event) {
