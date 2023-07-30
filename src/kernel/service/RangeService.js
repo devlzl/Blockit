@@ -60,6 +60,8 @@ export class RangeService {
         break
       }
     }
+    startNode = startNode ?? rootElement
+    endNode = endNode ?? rootElement
     const range = new Range()
     range.setStart(startNode, startOffset)
     range.setEnd(endNode, endOffset)

@@ -8,6 +8,9 @@ function handleInsertText(kernel, data) {
 
 function handleDeleteContentBackward(kernel, data) {
   const { index, length } = kernel.getKernelRange()
+  if (index === 0) {
+    return
+  }
   if (length > 0) {
     kernel.setKernelRange({
       index: index,
@@ -32,6 +35,9 @@ function handleDeleteContentBackward(kernel, data) {
 
 function handleDeleteContentForward(kernel, data) {
   const { index, length } = kernel.getKernelRange()
+  if (index === kernel.yText.toString().length) {
+    return
+  }
   if (length > 0) {
     kernel.setKernelRange({
       index: index,
