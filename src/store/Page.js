@@ -13,6 +13,9 @@ export class Page {
     this.events = {
       addRoot: new EventEmitter()
     }
+    this.selection = {
+      kernels: new Set()
+    }
   }
 
   register(schemas) {
@@ -55,6 +58,18 @@ export class Page {
       index: index,
       block: block,
     })
+  }
+
+  setSelectedKernels(kernel) {
+    if (kernel.getKernelRange().length > 0) {
+      this.selection.kernels.add(kernel)
+    } else {
+      this.selection.kernels.delete(kernel)
+    }
+  }
+
+  getSelectedKernels() {
+    return this.selection.kernels
   }
 
   undo() {

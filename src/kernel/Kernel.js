@@ -24,7 +24,7 @@ export class Kernel {
     this.toRange = this.rangeService.toRange.bind(this.rangeService)
     this.setRange = this.rangeService.setRange.bind(this.rangeService)
     this.getDeltas = this.deltaService.getDeltas.bind(this.deltaService)
-    this.getDeltasByKernalRange = this.deltaService.getDeltasByKernalRange.bind(this.deltaService)
+    this.getDeltasByKernelRange = this.deltaService.getDeltasByKernelRange.bind(this.deltaService)
   }
 
   mount(rootElement) {
@@ -55,6 +55,15 @@ export class Kernel {
     this.yText.doc.transact(() => {
       const { index, length } = kernelRange
       this.yText.format(index, length, format)
+    })
+  }
+
+  toggleSelectedFormat(attributeName) {
+    const kernelRange = this.getKernelRange()
+    const deltas = this.getDeltasByKernelRange(kernelRange)
+    const formatted = deltas.every(delta => delta.attributes?.[attributeName])
+    this.formatText(kernelRange, {
+      [attributeName]: !formatted,
     })
   }
 }

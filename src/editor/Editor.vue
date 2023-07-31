@@ -36,7 +36,7 @@ const pageBlock = createPageBlock()
     inactive-value="docs" inactive-text="Docs"
     active-value="whiteboard" active-text="Whiteboard"
   />
-  <!-- <Toolbar :kernel="kernel" /> -->
+  <Toolbar :pageBlock="pageBlock" />
   <component
     :is="builtinBlockViews.page"
     :pageBlock="pageBlock">

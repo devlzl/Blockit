@@ -3,10 +3,11 @@ import * as Y from 'yjs'
 import { Kernel } from './Kernel'
 import { nextTick, onMounted, ref } from 'vue'
 import RichTextElement from './components/RichTextElement.vue'
+import { Block } from '@store'
 
 
-const { text } = defineProps({
-  text: String,
+const { textBlock } = defineProps({
+  textBlock: Block,
 })
 
 
@@ -16,6 +17,11 @@ const kernel = new Kernel(yText)
 const kernelRef = ref(null)
 onMounted(() => {
   kernel.mount(kernelRef.value)
+  const text = textBlock.props.text
+  kernel.setKernelRange({
+    index: kernel.getKernelRange().index + text.length,
+    length: 0,
+  })
   kernel.insertText(text, {}, { index: 0, length: 0 })
 })
 
@@ -27,6 +33,11 @@ kernel.events.deltaUpdate.on(async () => {
   const kernelRange = kernel.getKernelRange()
   const range = kernel.toRange(kernelRange)
   kernel.setRange(range)
+})
+
+
+kernel.events.selectionChange.on(() => {
+  textBlock.page.setSelectedKernels(kernel)
 })
 </script>
 

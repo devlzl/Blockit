@@ -30,6 +30,11 @@ export class RangeService {
       }
       index += textNode.length
     }
+    // cross block selection, select to end
+    const selected = Array.from(richTextElements).some(element => range.intersectsNode(element))
+    if (selected && kernelRangeLength === 0) {
+      kernelRangeLength = rootElement.textContent.length - kernelRangeIndex
+    }
     return {
       index: kernelRangeIndex,
       length: kernelRangeLength,

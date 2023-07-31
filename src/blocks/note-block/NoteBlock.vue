@@ -23,7 +23,7 @@ noteBlock.events.childrenUpdate.on((data) => {
 </script>
 
 <template>
-  <div class="note-block">
+  <div class="note-block" contenteditable="true">
     <component
       v-for="block of blocks"
       :is="builtinBlockViews[block.type]"

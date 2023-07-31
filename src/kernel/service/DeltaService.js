@@ -7,7 +7,7 @@ export class DeltaService {
     return this._kernel.yText.toDelta()
   }
 
-  getDeltasByKernalRange(kernelRange) {
+  getDeltasByKernelRange(kernelRange) {
     const { index, length } = kernelRange
     const result = []
     let currentIndex = 0
