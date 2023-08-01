@@ -11,11 +11,21 @@ export class Page {
     }
     this.schemas = {}
     this.events = {
-      addRoot: new EventEmitter()
+      addRoot: new EventEmitter(),
+      deltaUpdate: new EventEmitter(),
+      selectionChange: new EventEmitter(),
     }
     this.selection = {
       kernels: new Set()
     }
+
+    this.events.selectionChange.on((kernel) => {
+      if (kernel.getKernelRange().length > 0) {
+        this.selection.kernels.add(kernel)
+      } else {
+        this.selection.kernels.delete(kernel)
+      }
+    })
   }
 
   register(schemas) {
@@ -58,14 +68,6 @@ export class Page {
       index: index,
       block: block,
     })
-  }
-
-  setSelectedKernels(kernel) {
-    if (kernel.getKernelRange().length > 0) {
-      this.selection.kernels.add(kernel)
-    } else {
-      this.selection.kernels.delete(kernel)
-    }
   }
 
   getSelectedKernels() {

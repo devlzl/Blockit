@@ -9,7 +9,7 @@ const { delta } = defineProps({
     bold: delta.attributes?.bold,
     italic: delta.attributes?.italic,
     underline: delta.attributes?.underline,
-    del: delta.attributes?.del,
+    strike: delta.attributes?.strike,
     code: delta.attributes?.code,
   }">
     {{ delta.insert }}
@@ -26,7 +26,7 @@ const { delta } = defineProps({
 .underline {
   text-decoration: underline;
 }
-.del {
+.strike {
   text-decoration: line-through;
 }
 .code {

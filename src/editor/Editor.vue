@@ -1,7 +1,8 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { Page, Text } from '@store'
-import Toolbar from './components/Toolbar.vue'
+import FormatBar from './components/FormatBar.vue'
+import BlockHub from './components/BlockHub.vue'
 import { builtinBlockSchemas, builtinBlockViews } from '@blocks'
 
 
@@ -27,26 +28,57 @@ function createPageBlock() {
   return pageBlock
 }
 const pageBlock = createPageBlock()
+const page = pageBlock.page
+
+
+const showFormatBar = ref(false)
+const formatBarX = ref(0)
+const formatBarY = ref(0)
+page.events.selectionChange.on(() => {
+  if (page.selection.kernels.size === 0) {
+    showFormatBar.value = false
+    return
+  }
+  showFormatBar.value = true
+  const range = document.getSelection().getRangeAt(0)
+  const { x, y } = range.getBoundingClientRect()
+  formatBarX.value = x
+  formatBarY.value = y - 60
+})
 </script>
 
 <template>
-  <el-switch
-    class="switch"
-    v-model="mode"
-    inactive-value="docs" inactive-text="Docs"
-    active-value="whiteboard" active-text="Whiteboard"
-  />
-  <Toolbar :pageBlock="pageBlock" />
-  <component
-    :is="builtinBlockViews.page"
-    :pageBlock="pageBlock">
-  </component>
+  <div class="editor">
+    <el-switch
+      class="switch"
+      v-model="mode"
+      inactive-value="docs" inactive-text="Docs"
+      active-value="whiteboard" active-text="Whiteboard"
+    />
+    <FormatBar
+      v-if="showFormatBar"
+      :page="page"
+      style="position: absolute;"
+      :style="{
+        left: `${formatBarX}px`,
+        top: `${formatBarY}px`,
+      }"
+    />
+    <BlockHub :page="page" />
+    <component
+      :is="builtinBlockViews.page"
+      :pageBlock="pageBlock">
+    </component>
+  </div>
 </template>
 
-<style scoped>
-.switch {
-  position: fixed;
-  top: 0;
-  right: 0;
+<style scoped lang="scss">
+.editor {
+  margin: 100px 70px;
+  .switch {
+    position: fixed;
+    top: 0;
+    right: 0;
+  }
 }
 </style>

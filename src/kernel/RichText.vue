@@ -9,6 +9,7 @@ import { Block } from '@store'
 const { textBlock } = defineProps({
   textBlock: Block,
 })
+const page = textBlock.page
 
 
 const yDoc = new Y.Doc()
@@ -33,11 +34,12 @@ kernel.events.deltaUpdate.on(async () => {
   const kernelRange = kernel.getKernelRange()
   const range = kernel.toRange(kernelRange)
   kernel.setRange(range)
+  page.events.deltaUpdate.emit()
 })
 
 
 kernel.events.selectionChange.on(() => {
-  textBlock.page.setSelectedKernels(kernel)
+  page.events.selectionChange.emit(kernel)
 })
 </script>
 
