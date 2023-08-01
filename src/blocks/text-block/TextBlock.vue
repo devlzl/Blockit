@@ -1,5 +1,5 @@
 <script setup>
-import RichText from '@kernel/RichText.vue'
+import { RichText } from '@kernel'
 import { Block } from '@store'
 
 

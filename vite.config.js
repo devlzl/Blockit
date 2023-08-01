@@ -7,11 +7,11 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      '@blocks': path.resolve(__dirname, 'src/blocks/index.js'),
+      '@blocks': path.resolve(__dirname, 'src/blocks/_index.js'),
       '@editor': path.resolve(__dirname, 'src/editor/Editor.vue'),
-      '@kernel': path.resolve(__dirname, 'src/kernel'),
-      '@renderer': path.resolve(__dirname, 'src/renderer'),
-      '@store': path.resolve(__dirname, 'src/store/_main.js'),
+      '@kernel': path.resolve(__dirname, 'src/kernel/_index.js'),
+      '@store': path.resolve(__dirname, 'src/store/_index.js'),
+      '@visual': path.resolve(__dirname, 'src/visual/_index.js'),
     }
   },
   server: {

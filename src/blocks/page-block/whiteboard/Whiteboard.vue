@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { drawRect } from '@renderer/shapes/rect'
+import { drawRect } from '@visual'
+
 
 const canvasRef = ref(null)
 onMounted(() => {

@@ -2,7 +2,7 @@ import { EventService } from './service/EventService'
 import { RangeService } from './service/RangeService'
 import { AttributeService } from './service/AttributeService'
 import { DeltaService } from './service/DeltaService'
-import { EventEmitter } from '../store/EventEmitter'
+import { EventEmitter } from '@store'
 
 
 export class Kernel {
