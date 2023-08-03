@@ -1,12 +1,11 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { drawRect } from '@visual'
+import { SurfaceManager } from '@visual'
 
 
 const canvasRef = ref(null)
 onMounted(() => {
-  const context = canvasRef.value.getContext('2d')
-  drawRect(context, 10, 10, 100, 70)
+  const surface = new SurfaceManager(canvasRef.value)
 })
 </script>
 
@@ -16,5 +15,10 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+canvas {
+  position: fixed;
+  left: 0;
+  top: 0;
+}
 </style>

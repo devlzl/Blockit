@@ -6,7 +6,8 @@ import BlockHub from './components/BlockHub.vue'
 import { builtinBlockSchemas, builtinBlockViews } from '@blocks'
 
 
-const mode = ref('docs')
+// const mode = ref('docs')
+const mode = ref('whiteboard')
 
 function createPageBlock() {
   const page = new Page()
@@ -77,8 +78,8 @@ page.events.selectionChange.on(() => {
   margin: 100px 70px;
   .switch {
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 20px;
+    left: 30px;
   }
 }
 </style>
