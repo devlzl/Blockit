@@ -1,7 +1,8 @@
 export class Renderer {
   constructor(canvas) {
-    this.canvas = canvas
-    this.context = canvas.getContext('2d')
+    this._canvas = canvas
+    this._context = canvas.getContext('2d')
+    this._elements = []
     this._shouldUpdate = false
     this._launch()
   }
@@ -10,16 +11,19 @@ export class Renderer {
     const width = window.innerWidth
     const height = window.innerHeight
     const dpr = window.devicePixelRatio
-    this.canvas.width = width * dpr
-    this.canvas.height = height * dpr
-    this.canvas.style.width = `${width}px`
-    this.canvas.style.height = `${height}px`
-    this.context.scale(dpr, dpr)
+    this._canvas.width = width * dpr
+    this._canvas.height = height * dpr
+    this._canvas.style.width = `${width}px`
+    this._canvas.style.height = `${height}px`
+    this._context.scale(dpr, dpr)
     this._shouldUpdate = true
   }
 
   _render() {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height)
+    this._context.clearRect(0, 0, this._canvas.width, this._canvas.height)
+    for (const element of this._elements) {
+      element.render(this._context)
+    }
   }
 
   _mainloop() {
@@ -35,5 +39,10 @@ export class Renderer {
   _launch() {
     this._resize()
     this._mainloop()
+  }
+
+  addElement(element) {
+    this._elements.push(element)
+    this._shouldUpdate = true
   }
 }

@@ -1,2 +1,2 @@
-export { drawRect } from './shapes/rect'
-export { SurfaceManager } from './SurfaceManager'
+export { Renderer } from './Renderer'
+export { PenElement } from './elements/PenElement'
