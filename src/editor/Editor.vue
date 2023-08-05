@@ -78,6 +78,7 @@ page.events.selectionChange.on(() => {
   margin: 100px 70px;
   .switch {
     position: fixed;
+    z-index: 1;
     top: 20px;
     left: 30px;
   }

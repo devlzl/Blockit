@@ -45,4 +45,8 @@ export class Renderer {
     this._elements.push(element)
     this._shouldUpdate = true
   }
+
+  forceUpdate() {
+    this._shouldUpdate = true
+  }
 }
