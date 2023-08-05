@@ -24,6 +24,8 @@ function activeIcon(type) {
     <el-button :type="activeIcon('pen')" @click="changeTool('pen')"><i class="bi bi-pencil"></i></el-button>
     <el-divider direction="vertical" />
     <el-button :type="activeIcon('rect')" @click="changeTool('rect')"><i class="bi bi-square"></i></el-button>
+    <el-button :type="activeIcon('triangle')" @click="changeTool('triangle')"><i class="bi bi-triangle"></i></el-button>
+    <el-button :type="activeIcon('circle')" @click="changeTool('circle')"><i class="bi bi-circle"></i></el-button>
   </div>
 </template>
 

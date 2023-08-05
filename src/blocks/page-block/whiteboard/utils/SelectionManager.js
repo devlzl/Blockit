@@ -1,6 +1,8 @@
 import { DefaultToolController } from '../controllers/DefaultToolController'
 import { PenToolController } from '../controllers/PenToolController'
 import { RectToolController } from '../controllers/RectToolController'
+import { TriangleToolController } from '../controllers/TriangleToolController'
+import { CircleToolController } from '../controllers/CircleToolController'
 
 
 export class SelectionManager {
@@ -12,6 +14,8 @@ export class SelectionManager {
       default: new DefaultToolController(renderer),
       pen: new PenToolController(renderer),
       rect: new RectToolController(renderer),
+      triangle: new TriangleToolController(renderer),
+      circle: new CircleToolController(renderer),
     }
     pageBlock.events.toolChange.on((type) => {
       this._currentToolType = type
