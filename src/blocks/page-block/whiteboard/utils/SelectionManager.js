@@ -1,5 +1,6 @@
 import { DefaultToolController } from '../controllers/DefaultToolController'
 import { PenToolController } from '../controllers/PenToolController'
+import { RectToolController } from '../controllers/RectToolController'
 
 
 export class SelectionManager {
@@ -10,6 +11,7 @@ export class SelectionManager {
     this._controllers = {
       default: new DefaultToolController(renderer),
       pen: new PenToolController(renderer),
+      rect: new RectToolController(renderer),
     }
     pageBlock.events.toolChange.on((type) => {
       this._currentToolType = type
