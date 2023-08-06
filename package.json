@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "bootstrap-icons": "^1.10.5",
     "element-plus": "^2.3.8",
     "vue": "^3.3.4",
     "yjs": "^13.6.7"
