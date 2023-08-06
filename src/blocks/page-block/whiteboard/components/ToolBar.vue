@@ -32,7 +32,6 @@ function activeIcon(type) {
 <style scoped lang="scss">
 .tool-bar {
   position: fixed;
-  z-index: 1;
   bottom: 50px;
   left: 50%;
   transform: translateX(-50%);
