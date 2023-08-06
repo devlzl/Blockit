@@ -48,7 +48,6 @@ export class Page {
       })
     }
     return block
-    // todo: CRDT
   }
 
   updateBlock(blockId, props) {

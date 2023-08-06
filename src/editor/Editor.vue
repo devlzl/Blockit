@@ -6,8 +6,8 @@ import BlockHub from './components/BlockHub.vue'
 import { builtinBlockSchemas, builtinBlockViews } from '@blocks'
 
 
-// const mode = ref('docs')
-const mode = ref('whiteboard')
+const mode = ref('docs')
+// const mode = ref('whiteboard')
 
 function createPageBlock() {
   const page = new Page()
@@ -25,7 +25,7 @@ function createPageBlock() {
   })
 
   const noteBlock = page.addBlock('note', {}, pageBlock)
-  const textBlock = page.addBlock('text', { text: 'hello world' }, noteBlock)
+  const textBlock = page.addBlock('text', { text: new Text('hello world') }, noteBlock)
   return pageBlock
 }
 const pageBlock = createPageBlock()

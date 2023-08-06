@@ -1,5 +1,5 @@
 <script setup>
-import { Page } from '@store'
+import { Page, Text } from '@store'
 
 
 const { page } = defineProps({
@@ -9,7 +9,7 @@ const { page } = defineProps({
 
 function addTextBlock() {
   const note = page.root.children[0].children[0]
-  page.addBlock('text', { text: 'new text block' + String(Math.random()).slice(2,3) }, note)
+  page.addBlock('text', { text: new Text('new text block') }, note)
 }
 </script>
 

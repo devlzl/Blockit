@@ -34,6 +34,7 @@ export class Kernel {
     this.rootElement = rootElement
     this.rootElement.contentEditable = 'true'
     this.eventService.mount()
+    this.events.deltaUpdate.emit()
   }
 
   insertText(text, attribute, kernelRange) {

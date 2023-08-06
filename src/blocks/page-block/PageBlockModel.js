@@ -1,10 +1,10 @@
-import { defineBlockSchema } from '@store'
+import { defineBlockSchema, Text } from '@store'
 
 
 export const PageBlockSchema = defineBlockSchema({
   type: 'page',
   props: {
-    title: '',
+    title: Text,
     mode: 'docs', // 'docs' | 'whiteboard'
   },
   metadata: {},

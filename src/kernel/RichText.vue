@@ -1,5 +1,4 @@
 <script setup>
-import * as Y from 'yjs'
 import { Kernel } from './Kernel'
 import { nextTick, onMounted, ref } from 'vue'
 import RichTextElement from './components/RichTextElement.vue'
@@ -12,18 +11,16 @@ const { textBlock } = defineProps({
 const page = textBlock.page
 
 
-const yDoc = new Y.Doc()
-const yText = yDoc.getText()
+const yText = textBlock.props.text
 const kernel = new Kernel(yText)
 const kernelRef = ref(null)
 onMounted(() => {
   kernel.mount(kernelRef.value)
-  const text = textBlock.props.text
+  const text = yText.toString()
   kernel.setKernelRange({
     index: kernel.getKernelRange().index + text.length,
     length: 0,
   })
-  kernel.insertText(text, {}, { index: 0, length: 0 })
 })
 
 

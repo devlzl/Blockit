@@ -5,6 +5,7 @@ import { SelectionManager } from './utils/SelectionManager'
 import { Block } from '@store'
 import { EventEmitter } from '@store'
 import { Renderer } from '@visual'
+import { builtinBlockViews } from '@blocks'
 
 
 const { pageBlock } = defineProps({
@@ -23,12 +24,20 @@ onMounted(() => {
 function handleToolChange(type) {
   pageBlock.events.toolChange.emit(type)
 }
+
+
+const noteBlocks = pageBlock.children
 </script>
 
 <template>
   <div mode="whiteboard">
     <canvas ref="canvasRef"></canvas>
     <ToolBar @tool-change="handleToolChange" />
+    <component
+      v-for="block of noteBlocks"
+      :is="builtinBlockViews[block.type]"
+      :noteBlock="block">
+    </component>
   </div>
 </template>
 

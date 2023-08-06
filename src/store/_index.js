@@ -1,3 +1,4 @@
+export { doc } from './doc'
 export { Block } from './Block'
 export { EventEmitter } from './EventEmitter'
 export { Page } from './Page'
