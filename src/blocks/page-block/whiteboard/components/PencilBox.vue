@@ -20,7 +20,7 @@ function activeIcon(type) {
 </script>
 
 <template>
-  <div class="tool-bar">
+  <div class="pencil-box">
     <el-button :type="activeIcon('pen')" @click="changeTool('pen')"><i class="bi bi-pencil"></i></el-button>
     <el-divider direction="vertical" />
     <el-button :type="activeIcon('rect')" @click="changeTool('rect')"><i class="bi bi-square"></i></el-button>
@@ -30,7 +30,7 @@ function activeIcon(type) {
 </template>
 
 <style scoped lang="scss">
-.tool-bar {
+.pencil-box {
   position: fixed;
   bottom: 50px;
   left: 50%;

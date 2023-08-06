@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import ToolBar from './components/ToolBar.vue'
+import PencilBox from './components/PencilBox.vue'
 import { SelectionManager } from './utils/SelectionManager'
 import { Block } from '@store'
 import { EventEmitter } from '@store'
@@ -32,7 +32,7 @@ const noteBlocks = pageBlock.children
 <template>
   <div mode="whiteboard">
     <canvas ref="canvasRef"></canvas>
-    <ToolBar @tool-change="handleToolChange" />
+    <PencilBox @tool-change="handleToolChange" />
     <component
       v-for="block of noteBlocks"
       :is="builtinBlockViews[block.type]"
