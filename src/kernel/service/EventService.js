@@ -4,20 +4,25 @@ import { handleInput } from '../utils/handleInput'
 export class EventService {
   constructor(kernel) {
     this._kernel = kernel
+    this._isCurrentElement = false
     this._isComposing = false
   }
 
   _onSelectionChange() {
+    const range = document.getSelection().getRangeAt(0)
+    this._isCurrentElement = range.intersectsNode(this._kernel.rootElement)
     if (this._isComposing) {
       return
     }
-    const range = document.getSelection().getRangeAt(0)
     const kernelRange = this._kernel.toKernelRange(range)
     this._kernel.setKernelRange(kernelRange)
     this._kernel.events.selectionChange.emit()
   }
 
   _onBeforeInput(event) {
+    if (!this._isCurrentElement) {
+      return
+    }
     event.preventDefault()
     if (this._isComposing) {
       return
@@ -27,10 +32,16 @@ export class EventService {
   }
 
   _onCompositionStart() {
+    if (!this._isCurrentElement) {
+      return
+    }
     this._isComposing = true
   }
 
   _onCompositionEnd(event) {
+    if (!this._isCurrentElement) {
+      return
+    }
     this._isComposing = false
     const data = event.data
     const range = window.getSelection().getRangeAt(0)
@@ -40,10 +51,11 @@ export class EventService {
   }
 
   mount() {
-    const rootElement = this._kernel.rootElement
+    // outer `contenteditable` will consume input events,
+    // so cannot bind events to `this._kernel.rootElement`
     document.addEventListener('selectionchange', this._onSelectionChange.bind(this))
-    rootElement.addEventListener('beforeinput', this._onBeforeInput.bind(this))
-    rootElement.addEventListener('compositionstart', this._onCompositionStart.bind(this))
-    rootElement.addEventListener('compositionend', this._onCompositionEnd.bind(this))
+    document.addEventListener('beforeinput', this._onBeforeInput.bind(this))
+    document.addEventListener('compositionstart', this._onCompositionStart.bind(this))
+    document.addEventListener('compositionend', this._onCompositionEnd.bind(this))
   }
 }
