@@ -31,7 +31,7 @@ const noteBlocks = pageBlock.get('children').toArray()
 </script>
 
 <template>
-  <div mode="whiteboard">
+  <div class="whiteboard">
     <canvas ref="canvasRef"></canvas>
     <PencilBox @tool-change="handleToolChange" />
     <component
