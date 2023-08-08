@@ -2,16 +2,15 @@
 import { Kernel } from './Kernel'
 import { nextTick, onMounted, ref } from 'vue'
 import RichTextElement from './components/RichTextElement.vue'
-import { Block } from '@store'
+import { Page, BlockType } from '@store'
 
 
-const { textBlock } = defineProps({
-  textBlock: Block,
+const { page, textBlock } = defineProps({
+  page: Page,
+  textBlock: BlockType,
 })
-const page = textBlock.page
 
-
-const yText = textBlock.props.text
+const yText = textBlock.get('props').get('text')
 const kernel = new Kernel(yText)
 const kernelRef = ref(null)
 onMounted(() => {

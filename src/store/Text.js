@@ -1,10 +1,9 @@
-import { doc } from './doc'
+import * as Y from 'yjs'
 
 
 export class Text {
-  static id = 0
   constructor(text='') {
-    const yText = doc.getText(Text.id++)
+    const yText = new Y.Text()
     yText.insert(0, text)
     return yText
   }

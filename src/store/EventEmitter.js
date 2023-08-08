@@ -1,6 +1,6 @@
 export class EventEmitter {
   constructor() {
-    this.id = 0
+    this.id = 1
     this.callbacks = {}
   }
 

@@ -2,31 +2,32 @@
 import { onMounted, ref } from 'vue'
 import PencilBox from './components/PencilBox.vue'
 import { SelectionManager } from './utils/SelectionManager'
-import { Block } from '@store'
+import { Page, BlockType } from '@store'
 import { EventEmitter } from '@store'
 import { Renderer } from '@visual'
 import { builtinBlockViews } from '@blocks'
 
 
-const { pageBlock } = defineProps({
-  pageBlock: Block,
+const { page, pageBlock } = defineProps({
+  page: Page,
+  pageBlock: BlockType,
 })
-pageBlock.events.toolChange = new EventEmitter()
 
 
 const canvasRef = ref(null)
+const toolChangeEvent = new EventEmitter()
 onMounted(() => {
   const renderer = new Renderer(canvasRef.value)
-  const selection = new SelectionManager(canvasRef.value, pageBlock, renderer)
+  const selection = new SelectionManager(canvasRef.value, renderer, toolChangeEvent)
 })
 
 
 function handleToolChange(type) {
-  pageBlock.events.toolChange.emit(type)
+  toolChangeEvent.emit(type)
 }
 
 
-const noteBlocks = pageBlock.children
+const noteBlocks = pageBlock.get('children').toArray()
 </script>
 
 <template>
@@ -35,7 +36,8 @@ const noteBlocks = pageBlock.children
     <PencilBox @tool-change="handleToolChange" />
     <component
       v-for="block of noteBlocks"
-      :is="builtinBlockViews[block.type]"
+      :is="builtinBlockViews[block.get('type')]"
+      :page="page"
       :noteBlock="block">
     </component>
   </div>

@@ -1,24 +1,25 @@
 import { Block } from './Block'
 import { EventEmitter } from './EventEmitter'
+import * as Y from 'yjs'
 
 
 export class Page {
   constructor() {
-    this.blockId = 0      // auto-generated id
-    this.blockMap = {}    // id-block map
-    this.root = {
-      children: []
-    }
+    const doc = new Y.Doc()
+    this.blockTree = doc.getMap()
+    this.blockMap = {}
+    this.history = new Y.UndoManager(this.blockTree)
+    // 
     this.schemas = {}
     this.events = {
-      addRoot: new EventEmitter(),
       deltaUpdate: new EventEmitter(),
       selectionChange: new EventEmitter(),
+      blockUpdate: new EventEmitter(),
     }
     this.selection = {
       kernels: new Set()
     }
-
+    // 
     this.events.selectionChange.on((kernel) => {
       if (kernel.getKernelRange().length > 0) {
         this.selection.kernels.add(kernel)
@@ -32,41 +33,38 @@ export class Page {
     this.schemas = schemas
   }
 
-  addBlock(type, props, parent=null, parentIndex=parent?.children.length) {
-    this.blockId += 1
-    const block = new Block(this.blockId, type, props, [], parent, this)
-    this.blockMap[this.blockId] = block
-    if (!parent) {
-      this.root.children.push(block)
-      this.events.addRoot.emit()
+  addBlock(type, props, parentId, parentIndex) {
+    const block = new Block(type, props, parentId, this)
+    if (parentId === undefined) {
+      this.blockTree.set('root', block)
     } else {
-      parent.children.splice(parentIndex, 0, block)
-      parent.events.childrenUpdate.emit({
-        type: 'add',
-        index: parentIndex,
-        block: block,
-      })
+      const parent = this.blockMap[parentId]
+      const peers = parent.get('children')
+      parentIndex = parentIndex ?? peers.length
+      peers.insert(parentIndex, [block])
     }
-    return block
+    this.blockMap[block.get('id')] = block
+    return block.get('id')
   }
 
   updateBlock(blockId, props) {
     const block = this.blockMap[blockId]
-    Object.assign(block.props, props)
-    block.events.propsUpdate.emit({ ...props })
+    for (const [key, value] of Object.entries(props)) {
+      block.get('props').set(key, value)
+    }
   }
 
   deleteBlock(blockId) {
     const block = this.blockMap[blockId]
-    const parent = block.parent
-    const index = parent.children.indexOf(block)
-    parent.children.splice(index, 1)
+    const parent = this.blockMap[block.get('parentId')]
+    const peers = parent.get('children')
+    const index = peers.toArray().indexOf(block)
+    peers.delete(index, 1)
     delete this.blockMap[blockId]
-    parent.events.childrenUpdate.emit({
-      type: 'delete',
-      index: index,
-      block: block,
-    })
+  }
+
+  getBlockById(blockId) {
+    return this.blockMap[blockId]
   }
 
   getSelectedKernels() {
@@ -74,15 +72,16 @@ export class Page {
   }
 
   undo() {
-
+    this.history.undo()
   }
 
   redo() {
-
+    this.history.redo()
   }
 
   captureSync() {
     // default: auto merge and generate a single history record every fixed time
     // captureSync: immediately add a history record
+    this.history.stopCapturing()
   }
 }

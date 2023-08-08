@@ -1,16 +1,17 @@
 <script setup>
 import { RichText } from '@kernel'
-import { Block } from '@store'
+import { Page, BlockType } from '@store'
 
 
-const { block } = defineProps({
-  block: Block,
+const { page, block } = defineProps({
+  page: Page,
+  block: BlockType,
 })
 </script>
 
 <template>
   <div class="text-block">
-    <RichText :textBlock="block" />
+    <RichText :page="page" :textBlock="block" />
   </div>
 </template>
 

@@ -1,20 +1,30 @@
 <script setup>
 import { builtinBlockViews } from '@blocks'
-import { Block } from '@store'
+import { Page, BlockType } from '@store'
+import { shallowRef } from 'vue'
 
 
-const { pageBlock } = defineProps({
-  pageBlock: Block,
+const { page, pageBlock } = defineProps({
+  page: Page,
+  pageBlock: BlockType,
 })
 
-const noteBlocks = pageBlock.children
+
+const noteBlocks = shallowRef(pageBlock.get('children').toArray())
+page.events.blockUpdate.on((update) => {
+  const { blockId, part } = update
+  if (blockId === pageBlock.get('id') && part === 'children') {
+    noteBlocks.value = pageBlock.get('children').toArray()
+  }
+})
 </script>
 
 <template>
   <div mode="docs">
     <component
       v-for="block of noteBlocks"
-      :is="builtinBlockViews[block.type]"
+      :is="builtinBlockViews[block.get('type')]"
+      :page="page"
       :noteBlock="block">
     </component>
   </div>

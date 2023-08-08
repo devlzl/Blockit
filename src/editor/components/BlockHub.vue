@@ -8,8 +8,8 @@ const { page } = defineProps({
 
 
 function addTextBlock() {
-  const note = page.root.children[0].children[0]
-  page.addBlock('text', { text: new Text('new text block') }, note)
+  const noteBlockId = page.blockTree.get('root').get('children').get(0).get('id')
+  page.addBlock('text', { text: new Text('new text block') }, noteBlockId)
 }
 </script>
 

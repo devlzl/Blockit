@@ -2,17 +2,21 @@
 import { ref } from 'vue'
 import Docs from './docs/Docs.vue'
 import Whiteboard from './whiteboard/Whiteboard.vue'
-import { Block } from '@store'
+import { Page, BlockType } from '@store'
 
 
-const { pageBlock } = defineProps({
-  pageBlock: Block,
+const { page, pageBlock } = defineProps({
+  page: Page,
+  pageBlock: BlockType,
 })
 
 
-const mode = ref(pageBlock.props.mode)
-pageBlock.events.propsUpdate.on((props) => {
-  mode.value = props.mode
+const mode = ref(pageBlock.get('props').get('mode'))
+page.events.blockUpdate.on((update) => {
+  const { blockId, part, event } = update
+  if (blockId === pageBlock.get('id') && part === 'props' && event.keysChanged.has('mode')) {
+    mode.value = pageBlock.get('props').get('mode')
+  }
 })
 </script>
 
@@ -20,6 +24,7 @@ pageBlock.events.propsUpdate.on((props) => {
   <component
     class="page-block"
     :is="mode === 'docs' ? Docs : Whiteboard" 
+    :page="page"
     :pageBlock="pageBlock">
   </component>
 </template>

@@ -9,27 +9,24 @@ import { builtinBlockSchemas, builtinBlockViews } from '@blocks'
 const mode = ref('docs')
 // const mode = ref('whiteboard')
 
-function createPageBlock() {
+function init() {
   const page = new Page()
   page.register(builtinBlockSchemas)
-  page.events.addRoot.on(() => {
-    console.log('root added')
-  })
 
-  const pageBlock = page.addBlock('page', {
+  const pageBlockId = page.addBlock('page', {
     title: new Text('new page'),
     mode: mode.value,
   })
   watch(mode, (value) => {
-    page.updateBlock(pageBlock.id, { mode: value })
+    page.updateBlock(pageBlockId, { mode: value })
   })
-
-  const noteBlock = page.addBlock('note', {}, pageBlock)
-  const textBlock = page.addBlock('text', { text: new Text('hello world') }, noteBlock)
-  return pageBlock
+  
+  const noteBlockId = page.addBlock('note', {}, pageBlockId)
+  const textBlockId = page.addBlock('text', { text: new Text('hello world') }, noteBlockId)
+  return { page, pageBlockId }
 }
-const pageBlock = createPageBlock()
-const page = pageBlock.page
+const { page, pageBlockId } = init()
+const pageBlock = page.getBlockById(pageBlockId)
 
 
 const showFormatBar = ref(false)
@@ -50,12 +47,16 @@ page.events.selectionChange.on(() => {
 
 <template>
   <div class="editor">
-    <el-switch
-      class="switch"
-      v-model="mode"
-      inactive-value="docs" inactive-text="Docs"
-      active-value="whiteboard" active-text="Whiteboard"
-    />
+    <div class="tool-bar">
+      <el-switch
+        class="switch"
+        v-model="mode"
+        inactive-value="docs" inactive-text="Docs"
+        active-value="whiteboard" active-text="Whiteboard"
+      />
+      <el-button @click="page.undo()"><i class="bi bi-arrow-counterclockwise"></i></el-button>
+      <el-button @click="page.redo()"><i class="bi bi-arrow-clockwise"></i></el-button>
+    </div>
     <FormatBar
       v-if="showFormatBar"
       :page="page"
@@ -68,6 +69,7 @@ page.events.selectionChange.on(() => {
     <BlockHub :page="page" />
     <component
       :is="builtinBlockViews.page"
+      :page="page"
       :pageBlock="pageBlock">
     </component>
   </div>
@@ -76,10 +78,17 @@ page.events.selectionChange.on(() => {
 <style scoped lang="scss">
 .editor {
   margin: 100px 70px;
-  .switch {
+  .tool-bar {
     position: fixed;
-    top: 20px;
-    left: 30px;
+    top: 14px;
+    left: 20px;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 1px 1px 5px lightgray;
+    border-radius: 7px;
+    .switch {
+      margin-right: 20px;
+    }
   }
 }
 </style>

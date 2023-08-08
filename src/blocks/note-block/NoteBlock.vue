@@ -1,23 +1,21 @@
 <script setup>
 import { builtinBlockViews } from '@blocks'
-import { Block } from '@store'
-import { ref } from 'vue'
+import { Page, BlockType } from '@store'
+import { shallowRef } from 'vue'
 
 
-const { noteBlock } = defineProps({
-  noteBlock: Block,
+const { page, noteBlock } = defineProps({
+  page: Page,
+  noteBlock: BlockType,
 })
 
 
-const blocks = ref(noteBlock.children.slice())
-noteBlock.events.childrenUpdate.on((data) => {
-  const { type, index, block } = data
-  if (type === 'add') {
-    blocks.value.splice(index, 0, block)
-  } else if (type === 'update') {
-    blocks.value[index] = block
-  } else if (type === 'delete') {
-    blocks.value.splice(index, 1)
+const blocks = shallowRef(noteBlock.get('children').toArray())
+page.events.blockUpdate.on((update) => {
+  const { blockId, part } = update
+  if (blockId === noteBlock.get('id') && part === 'children') {
+    // TODO: may need to be more precise
+    blocks.value = noteBlock.get('children').toArray()
   }
 })
 </script>
@@ -26,7 +24,8 @@ noteBlock.events.childrenUpdate.on((data) => {
   <div class="note-block" contenteditable="true">
     <component
       v-for="block of blocks"
-      :is="builtinBlockViews[block.type]"
+      :is="builtinBlockViews[block.get('type')]"
+      :page="page"
       :block="block">
     </component>
   </div>

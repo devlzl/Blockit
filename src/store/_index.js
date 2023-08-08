@@ -1,5 +1,4 @@
-export { doc } from './doc'
-export { Block } from './Block'
+export { Block, BlockType } from './Block'
 export { EventEmitter } from './EventEmitter'
 export { Page } from './Page'
 export { defineBlockSchema } from './Schema'
