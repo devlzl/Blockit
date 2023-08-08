@@ -5,9 +5,10 @@ import RichTextElement from './components/RichTextElement.vue'
 import { Page, BlockType } from '@store'
 
 
-const { page, textBlock } = defineProps({
+const { page, textBlock, initFocus } = defineProps({
   page: Page,
   textBlock: BlockType,
+  initFocus: String,
 })
 
 const yText = textBlock.get('props').get('text')
@@ -16,10 +17,14 @@ const kernelRef = ref(null)
 onMounted(() => {
   kernel.mount(kernelRef.value)
   const text = yText.toString()
-  kernel.setKernelRange({
-    index: kernel.getKernelRange().index + text.length,
-    length: 0,
-  })
+  if (initFocus === 'start') {
+    kernel.setKernelRange({ index: 0, length: 0 })
+  } else if (initFocus === 'end') {
+    kernel.setKernelRange({
+      index: kernel.getKernelRange().index + text.length,
+      length: 0,
+    })
+  }
 })
 
 
@@ -36,6 +41,14 @@ kernel.events.deltaUpdate.on(async () => {
 
 kernel.events.selectionChange.on(() => {
   page.events.selectionChange.emit(kernel)
+})
+
+
+kernel.events.lineBreak.on((data) => {
+  page.events.lineBreak.emit({
+    blockId: textBlock.get('id'),
+    data: data,
+  })
 })
 </script>
 

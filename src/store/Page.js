@@ -1,6 +1,7 @@
 import { Block } from './Block'
 import { EventEmitter } from './EventEmitter'
 import * as Y from 'yjs'
+import { Text } from './Text'
 
 
 export class Page {
@@ -15,6 +16,7 @@ export class Page {
       deltaUpdate: new EventEmitter(),
       selectionChange: new EventEmitter(),
       blockUpdate: new EventEmitter(),
+      lineBreak: new EventEmitter(),
     }
     this.selection = {
       kernels: new Set()
@@ -26,6 +28,13 @@ export class Page {
       } else {
         this.selection.kernels.delete(kernel)
       }
+    })
+    this.events.lineBreak.on(({ blockId, data }) => {
+      const block = this.getBlockById(blockId)
+      const parentId = block.get('parentId')
+      const parent = this.getBlockById(parentId)
+      const index = parent.get('children').toArray().indexOf(block) + 1
+      this.addBlock('text', { text: new Text(data), initFocus: 'start' }, parentId, index)
     })
   }
 

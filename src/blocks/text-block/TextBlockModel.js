@@ -5,6 +5,7 @@ export const TextBlockSchema = defineBlockSchema({
   type: 'text',
   props: {
     text: Text,
+    initFocus: 'end', // 'start' | 'end'
   },
   metadata: {},
 })

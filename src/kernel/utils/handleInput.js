@@ -6,6 +6,20 @@ function handleInsertText(kernel, data) {
   kernel.insertText(data, {}, kernel.getKernelRange())
 }
 
+function handleInsertParagraph(kernel, data) {
+  const { index } = kernel.getKernelRange()
+  kernel.setKernelRange({
+    index: kernel.getKernelRange().index,
+    length: 0,
+  })
+  const slicedString = kernel.yText.toString().slice(index)
+  kernel.deleteText({
+    index: index,
+    length: slicedString.length,
+  })
+  kernel.events.lineBreak.emit(slicedString)
+}
+
 function handleDeleteContentBackward(kernel, data) {
   const { index, length } = kernel.getKernelRange()
   if (index === 0) {
@@ -119,6 +133,7 @@ function handleDeleteSoftLineBackward(kernel, data) {
 export function handleInput(inputType, data, kernel) {
   const handlers = {
     insertText:             handleInsertText,
+    insertParagraph:        handleInsertParagraph,
     deleteContentBackward:  handleDeleteContentBackward,
     deleteContentForward:   handleDeleteContentForward,
     deleteWordBackward:     handleDeleteWordBackward,
