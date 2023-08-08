@@ -28,9 +28,11 @@ onMounted(() => {
 })
 
 
+const showPlaceholder = ref(false)
 const deltas = ref([])
 kernel.events.deltaUpdate.on(async () => {
   deltas.value = kernel.getDeltas()
+  showPlaceholder.value = deltas.value.length === 0
   await nextTick()
   const kernelRange = kernel.getKernelRange()
   const range = kernel.toRange(kernelRange)
@@ -55,5 +57,15 @@ kernel.events.lineBreak.on((data) => {
 <template>
   <div class="rich-text" ref="kernelRef" style="white-space: break-spaces;">
     <RichTextElement v-for="delta of deltas" :delta="delta" />
+    <div class="placeholder" v-if="showPlaceholder">Type something...</div>
   </div>
 </template>
+
+<style scoped lang="scss">
+.rich-text {
+  padding: 6px 0;
+  .placeholder {
+    color: lightgray;
+  }
+}
+</style>
