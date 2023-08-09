@@ -3,10 +3,11 @@ import { TriangleElement } from '@visual'
 
 
 export class TriangleToolController extends ToolController {
-  constructor(surfaceManager) {
+  constructor(surfaceManager, toolChangeEvent) {
     super()
     this._surfaceManager = surfaceManager
     this._currentElement = null
+    this._toolChangeEvent = toolChangeEvent
   }
 
   handleMouseDown(event) {
@@ -17,13 +18,13 @@ export class TriangleToolController extends ToolController {
 
   handleMouseMove(event) {
     if (this._currentElement) {
-      this._currentElement.right = event.x
-      this._currentElement.bottom = event.y
-      this._surfaceManager.forceUpdate()
+      this._currentElement.set('right', event.x)
+      this._currentElement.set('bottom', event.y)
     }
   }
 
   handleMouseUp(event) {
     this._currentElement = null
+    this._toolChangeEvent.emit('default')
   }
 }

@@ -3,10 +3,11 @@ import { PenElement } from '@visual'
 
 
 export class PenToolController extends ToolController {
-  constructor(surfaceManager) {
+  constructor(surfaceManager, toolChangeEvent) {
     super()
     this._surfaceManager = surfaceManager
     this._currentElement = null
+    this._toolChangeEvent = toolChangeEvent
   }
 
   handleMouseDown(event) {
@@ -17,15 +18,15 @@ export class PenToolController extends ToolController {
 
   handleMouseMove(event) {
     if (this._currentElement) {
-      this._currentElement.points.push({
+      this._currentElement.get('points').push([{
         x: event.x,
         y: event.y,
-      })
-      this._surfaceManager.forceUpdate()
+      }])
     }
   }
 
   handleMouseUp(event) {
     this._currentElement = null
+    this._toolChangeEvent.emit('default')
   }
 }

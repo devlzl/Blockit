@@ -1,3 +1,3 @@
 export class Element {
-  render() {}
+  static id = 1
 }

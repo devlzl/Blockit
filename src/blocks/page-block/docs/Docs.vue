@@ -1,7 +1,7 @@
 <script setup>
 import { builtinBlockViews } from '@blocks'
 import { Page, BlockType } from '@store'
-import { ref, shallowRef } from 'vue'
+import { ref, shallowRef, triggerRef } from 'vue'
 
 
 const { page, pageBlock } = defineProps({
@@ -13,11 +13,14 @@ const { page, pageBlock } = defineProps({
 const title = ref(pageBlock.get('props').get('title').toString())
 
 
-const noteBlocks = shallowRef(pageBlock.get('children').toArray())
+function getNoteBlocks() {
+  return pageBlock.get('children').toArray().filter(block => block.get('type') === 'note')
+}
+const noteBlocks = shallowRef(getNoteBlocks())
 page.events.blockUpdate.on((update) => {
   const { blockId, part } = update
   if (blockId === pageBlock.get('id') && part === 'children') {
-    noteBlocks.value = pageBlock.get('children').toArray()
+    triggerRef(noteBlocks)
   }
 })
 </script>

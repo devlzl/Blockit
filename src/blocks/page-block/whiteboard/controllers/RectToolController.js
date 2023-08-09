@@ -3,10 +3,11 @@ import { RectElement } from '@visual'
 
 
 export class RectToolController extends ToolController {
-  constructor(surfaceManager) {
+  constructor(surfaceManager, toolChangeEvent) {
     super()
     this._surfaceManager = surfaceManager
     this._currentElement = null
+    this._toolChangeEvent = toolChangeEvent
     this._startX = 0
     this._startY = 0
   }
@@ -21,13 +22,13 @@ export class RectToolController extends ToolController {
 
   handleMouseMove(event) {
     if (this._currentElement) {
-      this._currentElement.width = event.x - this._startX
-      this._currentElement.height = event.y - this._startY
-      this._surfaceManager.forceUpdate()
+      this._currentElement.set('width', event.x - this._startX)
+      this._currentElement.set('height', event.y - this._startY)
     }
   }
 
   handleMouseUp(event) {
     this._currentElement = null
+    this._toolChangeEvent.emit('default')
   }
 }

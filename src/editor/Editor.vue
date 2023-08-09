@@ -12,21 +12,17 @@ const mode = ref('docs')
 function init() {
   const page = new Page()
   page.register(builtinBlockSchemas)
-
-  const pageBlockId = page.addBlock('page', {
-    title: new Text('new page'),
-    mode: mode.value,
-  })
-  watch(mode, (value) => {
-    page.updateBlock(pageBlockId, { mode: value })
-  })
-  
+  const pageBlockId = page.addBlock('page', { title: new Text('new page'), mode: mode.value })
   const noteBlockId = page.addBlock('note', {}, pageBlockId)
   const textBlockId = page.addBlock('text', { text: new Text('hello world') }, noteBlockId)
+  const surfaceBlockId = page.addBlock('surface', {}, pageBlockId)
   return { page, pageBlockId }
 }
 const { page, pageBlockId } = init()
 const pageBlock = page.getBlockById(pageBlockId)
+watch(mode, (value) => {
+  page.updateBlock(pageBlockId, { mode: value })
+})
 
 
 const showFormatBar = ref(false)

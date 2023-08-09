@@ -16,7 +16,8 @@ const { page, pageBlock } = defineProps({
 const canvasRef = ref(null)
 const toolChangeEvent = new EventEmitter()
 onMounted(() => {
-  const surfaceManager = new SurfaceManager(canvasRef.value)
+  const surfaceBlock = pageBlock.get('children').toArray().find(block => block.get('type') === 'surface')
+  const surfaceManager = new SurfaceManager(canvasRef.value, surfaceBlock)
   const selectionManager = new SelectionManager(page, surfaceManager, toolChangeEvent)
 })
 
@@ -26,7 +27,10 @@ function handleToolChange(type) {
 }
 
 
-const noteBlocks = shallowRef(pageBlock.get('children').toArray())
+function getNoteBlocks() {
+  return pageBlock.get('children').toArray().filter(block => block.get('type') === 'note')
+}
+const noteBlocks = shallowRef(getNoteBlocks())
 page.events.blockUpdate.on((update) => {
   const ids = noteBlocks.value.map(block => block.get('id'))
   const index = ids.indexOf(update.blockId)

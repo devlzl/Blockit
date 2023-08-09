@@ -1,10 +1,29 @@
+import { circleRender, penRender, rectRender, triangleRender } from '@visual'
+
+
 export class Renderer {
-  constructor(canvas, elements) {
+  constructor(canvas, surfaceBlock) {
     this._canvas = canvas
     this._context = canvas.getContext('2d')
-    this._elements = elements
+    this._surfaceBlock = surfaceBlock
     this._shouldUpdate = false
+    this._surfaceBlock.observeDeep(() => {
+      this._shouldUpdate = true
+    })
     this._launch()
+  }
+
+  get elements() {
+    return this._surfaceBlock.get('children').toArray()
+  }
+
+  _getRender(type) {
+    return {
+      circle: circleRender,
+      pen: penRender,
+      rect: rectRender,
+      triangle: triangleRender,
+    }[type]
   }
 
   _resize() {
@@ -21,8 +40,9 @@ export class Renderer {
 
   _render() {
     this._context.clearRect(0, 0, this._canvas.width, this._canvas.height)
-    for (const element of this._elements) {
-      element.render(this._context)
+    for (const element of this.elements) {
+      const render = this._getRender(element.get('type'))
+      render(element, this._context)
     }
   }
 
@@ -39,9 +59,5 @@ export class Renderer {
   _launch() {
     this._resize()
     this._mainloop()
-  }
-
-  forceUpdate() {
-    this._shouldUpdate = true
   }
 }

@@ -2,17 +2,12 @@ import { Renderer } from './Renderer'
 
 
 export class SurfaceManager {
-  constructor(canvas) {
-    this.elements = []
-    this.renderer = new Renderer(canvas, this.elements)
+  constructor(canvas, surfaceBlock) {
+    this.surfaceBlock = surfaceBlock
+    this.renderer = new Renderer(canvas, surfaceBlock)
   }
 
   addElement(element) {
-    this.elements.push(element)
-    this.renderer.forceUpdate()
-  }
-
-  forceUpdate() {
-    this.renderer.forceUpdate()
+    this.surfaceBlock.get('children').push([element])
   }
 }

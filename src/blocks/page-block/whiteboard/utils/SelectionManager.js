@@ -11,10 +11,10 @@ export class SelectionManager {
     this._toolChangeEvent = toolChangeEvent
     this._controllers = {
       default: new DefaultToolController(surfaceManager, page),
-      pen: new PenToolController(surfaceManager),
-      rect: new RectToolController(surfaceManager),
-      triangle: new TriangleToolController(surfaceManager),
-      circle: new CircleToolController(surfaceManager),
+      pen: new PenToolController(surfaceManager, toolChangeEvent),
+      rect: new RectToolController(surfaceManager, toolChangeEvent),
+      triangle: new TriangleToolController(surfaceManager, toolChangeEvent),
+      circle: new CircleToolController(surfaceManager, toolChangeEvent),
     }
     this._toolChangeEvent.on((type) => {
       this._currentToolType = type
