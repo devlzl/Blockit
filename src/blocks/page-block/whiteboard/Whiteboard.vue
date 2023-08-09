@@ -70,7 +70,7 @@ page.events.blockUpdate.on((update) => {
   .note-block-container {
     position: absolute;
     width: 400px;
-    padding: 20px;
+    padding: 30px;
     background-color: white;
     box-shadow: 1px 1px 5px lightgray;
     border-radius: 7px;
