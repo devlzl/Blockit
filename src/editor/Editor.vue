@@ -12,7 +12,7 @@ const mode = ref('docs')
 function init() {
   const page = new Page()
   page.register(builtinBlockSchemas)
-  const pageBlockId = page.addBlock('page', { title: new Text('new page'), mode: mode.value })
+  const pageBlockId = page.addBlock('page', { title: new Text('new page title'), mode: mode.value })
   const noteBlockId = page.addBlock('note', {}, pageBlockId)
   const textBlockId = page.addBlock('text', { text: new Text('hello world') }, noteBlockId)
   const surfaceBlockId = page.addBlock('surface', {}, pageBlockId)
@@ -52,6 +52,8 @@ page.events.selectionChange.on(() => {
       />
       <el-button @click="page.undo()"><i class="bi bi-arrow-counterclockwise"></i></el-button>
       <el-button @click="page.redo()"><i class="bi bi-arrow-clockwise"></i></el-button>
+      <br>
+      <BlockHub :page="page" />
     </div>
     <FormatBar
       v-if="showFormatBar"
@@ -62,7 +64,6 @@ page.events.selectionChange.on(() => {
         top: `${formatBarY}px`,
       }"
     />
-    <BlockHub :page="page" />
     <component
       :is="builtinBlockViews.page"
       :page="page"
