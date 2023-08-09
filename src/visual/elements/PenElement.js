@@ -13,10 +13,12 @@ export class PenElement extends Element {
       const right = Math.max(...points.map(point => point.x))
       const top = Math.min(...points.map(point => point.y))
       const bottom = Math.max(...points.map(point => point.y))
-      element.get('left') !== left && element.set('left', left)
-      element.get('right') !== right && element.set('right', right)
-      element.get('top') !== top && element.set('top', top)
-      element.get('bottom') !== bottom && element.set('bottom', bottom)
+      element.doc.transact(() => {
+        element.get('left') !== left && element.set('left', left)
+        element.get('right') !== right && element.set('right', right)
+        element.get('top') !== top && element.set('top', top)
+        element.get('bottom') !== bottom && element.set('bottom', bottom)
+      })
     })
     return element
   }

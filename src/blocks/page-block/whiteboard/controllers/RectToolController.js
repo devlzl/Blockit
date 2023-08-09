@@ -18,8 +18,10 @@ export class RectToolController extends ToolController {
 
   handleMouseMove(event) {
     if (this._currentElement) {
-      this._currentElement.set('right', event.x)
-      this._currentElement.set('bottom', event.y)
+      this._currentElement.doc.transact(() => {
+        this._currentElement.set('right', event.x)
+        this._currentElement.set('bottom', event.y)
+      })
     }
   }
 
