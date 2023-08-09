@@ -5,7 +5,7 @@ import { ref } from 'vue'
 const emit = defineEmits(['tool-change'])
 
 
-const tool = ref('')
+const tool = ref('default')
 function changeTool(type) {
   if (tool.value !== type) {
     tool.value = type
@@ -21,6 +21,8 @@ function activeIcon(type) {
 
 <template>
   <div class="pencil-box">
+    <el-button :type="activeIcon('default')" @click="changeTool('default')"><i class="bi bi-cursor"></i></el-button>
+    <el-divider direction="vertical" />
     <el-button :type="activeIcon('pen')" @click="changeTool('pen')"><i class="bi bi-pencil"></i></el-button>
     <el-divider direction="vertical" />
     <el-button :type="activeIcon('rect')" @click="changeTool('rect')"><i class="bi bi-square"></i></el-button>

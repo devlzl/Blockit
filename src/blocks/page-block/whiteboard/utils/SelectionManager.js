@@ -6,12 +6,11 @@ import { CircleToolController } from '../controllers/CircleToolController'
 
 
 export class SelectionManager {
-  constructor(canvas, renderer, toolChangeEvent) {
-    this._canvas = canvas
+  constructor(page, renderer, toolChangeEvent) {
     this._currentToolType = 'default'
     this._toolChangeEvent = toolChangeEvent
     this._controllers = {
-      default: new DefaultToolController(renderer),
+      default: new DefaultToolController(renderer, page),
       pen: new PenToolController(renderer),
       rect: new RectToolController(renderer),
       triangle: new TriangleToolController(renderer),
@@ -34,13 +33,13 @@ export class SelectionManager {
       eventNames.forEach((eventName) => {
         const handlerName = `handle${eventName}`
         const handler = this.currentController[handlerName]?.bind(this.currentController)
-        this._canvas.addEventListener(eventName.toLowerCase(), handler)
+        document.addEventListener(eventName.toLowerCase(), handler)
         previousHandlerMap[eventName] = handler
       })
     }
     const _removeListener = () => {
       eventNames.forEach((eventName) => {
-        this._canvas.removeEventListener(eventName.toLowerCase(), previousHandlerMap[eventName])
+        document.removeEventListener(eventName.toLowerCase(), previousHandlerMap[eventName])
       })
     }
     this._toolChangeEvent.on(() => {

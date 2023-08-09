@@ -32,4 +32,7 @@ page.events.blockUpdate.on((update) => {
 </template>
 
 <style scoped>
+.note-block {
+  cursor: text;
+}
 </style>

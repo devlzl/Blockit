@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, shallowRef, triggerRef } from 'vue'
 import PencilBox from './components/PencilBox.vue'
 import { SelectionManager } from './utils/SelectionManager'
 import { Page, BlockType } from '@store'
@@ -18,7 +18,7 @@ const canvasRef = ref(null)
 const toolChangeEvent = new EventEmitter()
 onMounted(() => {
   const renderer = new Renderer(canvasRef.value)
-  const selection = new SelectionManager(canvasRef.value, renderer, toolChangeEvent)
+  const selection = new SelectionManager(page, renderer, toolChangeEvent)
 })
 
 
@@ -27,27 +27,54 @@ function handleToolChange(type) {
 }
 
 
-const noteBlocks = pageBlock.get('children').toArray()
+const noteBlocks = shallowRef(pageBlock.get('children').toArray())
+page.events.blockUpdate.on((update) => {
+  const ids = noteBlocks.value.map(block => block.get('id'))
+  const index = ids.indexOf(update.blockId)
+  if (index > -1) {
+    triggerRef(noteBlocks)
+  }
+})
 </script>
 
 <template>
   <div class="whiteboard">
     <canvas ref="canvasRef"></canvas>
     <PencilBox @tool-change="handleToolChange" />
-    <component
+    <div
       v-for="block of noteBlocks"
-      :is="builtinBlockViews[block.get('type')]"
-      :page="page"
-      :noteBlock="block">
-    </component>
+      class="note-block-container"
+      :blockid="block.get('id')"
+      :style="{
+        left: `${block.get('props')?.get('position')?.x ?? 200}px`,
+        top: `${block.get('props')?.get('position')?.y ?? 200}px`
+      }">
+      <component
+        :is="builtinBlockViews[block.get('type')]"
+        :page="page"
+        :noteBlock="block">
+      </component>
+    </div>
   </div>
 </template>
 
 <style scoped lang="scss">
-canvas {
-  position: fixed;
-  z-index: -1;
-  left: 0;
-  top: 0;
+.whiteboard {
+  canvas {
+    position: fixed;
+    z-index: -1;
+    left: 0;
+    top: 0;
+  }
+
+  .note-block-container {
+    position: absolute;
+    width: 400px;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 1px 1px 5px lightgray;
+    border-radius: 7px;
+    cursor: move;
+  }
 }
 </style>
