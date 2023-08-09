@@ -11,6 +11,11 @@ export class DefaultToolController extends ToolController {
     this._offsetY = 0
   }
 
+  handleClick(event) {
+    const picked = this._surfaceManager.pick(event.x, event.y)
+    console.log('picked', picked)
+  }
+
   handleMouseDown(event) {
     const target = event.target
     if (target.classList.contains('note-block-container')) {

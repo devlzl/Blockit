@@ -24,6 +24,7 @@ export class TriangleToolController extends ToolController {
   }
 
   handleMouseUp(event) {
+    this._surfaceManager.fillGrid(this._currentElement)
     this._currentElement = null
     this._toolChangeEvent.emit('default')
   }
