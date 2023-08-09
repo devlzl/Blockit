@@ -12,17 +12,17 @@ export class RectToolController extends ToolController {
   }
 
   handleMouseDown(event) {
-    const element = new RectElement(event.clientX, event.clientY)
+    const element = new RectElement(event.x, event.y)
     this._renderer.addElement(element)
     this._currentElement = element
-    this._startX = event.clientX
-    this._startY = event.clientY
+    this._startX = event.x
+    this._startY = event.y
   }
 
   handleMouseMove(event) {
     if (this._currentElement) {
-      this._currentElement.width = event.clientX - this._startX
-      this._currentElement.height = event.clientY - this._startY
+      this._currentElement.width = event.x - this._startX
+      this._currentElement.height = event.y - this._startY
       this._renderer.forceUpdate()
     }
   }

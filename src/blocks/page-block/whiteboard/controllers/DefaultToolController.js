@@ -18,8 +18,8 @@ export class DefaultToolController extends ToolController {
       const noteBlock = this._page.getBlockById(blockId)
       const { x, y } = target.getBoundingClientRect()
       this._currentElement = noteBlock
-      this._offsetX = event.clientX - x
-      this._offsetY = event.clientY - y
+      this._offsetX = event.x - x
+      this._offsetY = event.y - y
     }
   }
 
@@ -28,8 +28,8 @@ export class DefaultToolController extends ToolController {
       const blockId = this._currentElement.get('id')
       this._page.updateBlock(blockId, {
         position: {
-          x: event.clientX - this._offsetX,
-          y: event.clientY - this._offsetY,
+          x: event.x - this._offsetX,
+          y: event.y - this._offsetY,
         }
       })
     }

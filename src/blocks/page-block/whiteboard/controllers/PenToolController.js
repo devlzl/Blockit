@@ -18,8 +18,8 @@ export class PenToolController extends ToolController {
   handleMouseMove(event) {
     if (this._currentElement) {
       this._currentElement.points.push({
-        x: event.clientX,
-        y: event.clientY,
+        x: event.x,
+        y: event.y,
       })
       this._renderer.forceUpdate()
     }

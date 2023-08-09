@@ -10,15 +10,15 @@ export class CircleToolController extends ToolController {
   }
 
   handleMouseDown(event) {
-    const element = new CircleElement(event.clientX, event.clientY)
+    const element = new CircleElement(event.x, event.y)
     this._renderer.addElement(element)
     this._currentElement = element
   }
 
   handleMouseMove(event) {
     if (this._currentElement) {
-      this._currentElement.right = event.clientX
-      this._currentElement.bottom = event.clientY
+      this._currentElement.right = event.x
+      this._currentElement.bottom = event.y
       this._renderer.forceUpdate()
     }
   }
