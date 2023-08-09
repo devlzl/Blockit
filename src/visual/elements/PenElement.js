@@ -4,11 +4,20 @@ import * as Y from 'yjs'
 
 export class PenElement extends Element {
   constructor() {
-    const element = new Y.Map()
-    const id = Element.id++
-    element.set('id', id)
+    const element = super()
     element.set('type', 'pen')
     element.set('points', new Y.Array())
+    element.observeDeep(() => {
+      const points = element.get('points').toArray()
+      const left = Math.min(...points.map(point => point.x))
+      const right = Math.max(...points.map(point => point.x))
+      const top = Math.min(...points.map(point => point.y))
+      const bottom = Math.max(...points.map(point => point.y))
+      element.get('left') !== left && element.set('left', left)
+      element.get('right') !== right && element.set('right', right)
+      element.get('top') !== top && element.set('top', top)
+      element.get('bottom') !== bottom && element.set('bottom', bottom)
+    })
     return element
   }
 }

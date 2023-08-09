@@ -1,17 +1,14 @@
 import { Element } from './_Element'
-import * as Y from 'yjs'
 
 
 export class CircleElement extends Element {
-  constructor(x, y) {
-    const element = new Y.Map()
-    const id = Element.id++
-    element.set('id', id)
+  constructor(left, top) {
+    const element = super()
     element.set('type', 'circle')
-    element.set('left', x)
-    element.set('right', x)
-    element.set('top', y)
-    element.set('bottom', y)
+    element.set('left', left)
+    element.set('right', left)
+    element.set('top', top)
+    element.set('bottom', top)
     return element
   }
 }

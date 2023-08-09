@@ -8,22 +8,18 @@ export class RectToolController extends ToolController {
     this._surfaceManager = surfaceManager
     this._currentElement = null
     this._toolChangeEvent = toolChangeEvent
-    this._startX = 0
-    this._startY = 0
   }
 
   handleMouseDown(event) {
     const element = new RectElement(event.x, event.y)
     this._surfaceManager.addElement(element)
     this._currentElement = element
-    this._startX = event.x
-    this._startY = event.y
   }
 
   handleMouseMove(event) {
     if (this._currentElement) {
-      this._currentElement.set('width', event.x - this._startX)
-      this._currentElement.set('height', event.y - this._startY)
+      this._currentElement.set('right', event.x)
+      this._currentElement.set('bottom', event.y)
     }
   }
 

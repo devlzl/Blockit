@@ -1,12 +1,9 @@
 import { Element } from './_Element'
-import * as Y from 'yjs'
 
 
 export class TriangleElement extends Element {
   constructor(left, top) {
-    const element = new Y.Map()
-    const id = Element.id++
-    element.set('id', id)
+    const element = super()
     element.set('type', 'triangle')
     element.set('left', left)
     element.set('right', left)
