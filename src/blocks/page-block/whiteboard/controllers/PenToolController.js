@@ -3,15 +3,15 @@ import { PenElement } from '@visual'
 
 
 export class PenToolController extends ToolController {
-  constructor(renderer) {
+  constructor(surfaceManager) {
     super()
-    this._renderer = renderer
+    this._surfaceManager = surfaceManager
     this._currentElement = null
   }
 
   handleMouseDown(event) {
     const element = new PenElement()
-    this._renderer.addElement(element)
+    this._surfaceManager.addElement(element)
     this._currentElement = element
   }
 
@@ -21,7 +21,7 @@ export class PenToolController extends ToolController {
         x: event.x,
         y: event.y,
       })
-      this._renderer.forceUpdate()
+      this._surfaceManager.forceUpdate()
     }
   }
 

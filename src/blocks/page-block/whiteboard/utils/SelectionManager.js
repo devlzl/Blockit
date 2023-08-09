@@ -6,15 +6,15 @@ import { CircleToolController } from '../controllers/CircleToolController'
 
 
 export class SelectionManager {
-  constructor(page, renderer, toolChangeEvent) {
+  constructor(page, surfaceManager, toolChangeEvent) {
     this._currentToolType = 'default'
     this._toolChangeEvent = toolChangeEvent
     this._controllers = {
-      default: new DefaultToolController(renderer, page),
-      pen: new PenToolController(renderer),
-      rect: new RectToolController(renderer),
-      triangle: new TriangleToolController(renderer),
-      circle: new CircleToolController(renderer),
+      default: new DefaultToolController(surfaceManager, page),
+      pen: new PenToolController(surfaceManager),
+      rect: new RectToolController(surfaceManager),
+      triangle: new TriangleToolController(surfaceManager),
+      circle: new CircleToolController(surfaceManager),
     }
     this._toolChangeEvent.on((type) => {
       this._currentToolType = type

@@ -3,15 +3,15 @@ import { TriangleElement } from '@visual'
 
 
 export class TriangleToolController extends ToolController {
-  constructor(renderer) {
+  constructor(surfaceManager) {
     super()
-    this._renderer = renderer
+    this._surfaceManager = surfaceManager
     this._currentElement = null
   }
 
   handleMouseDown(event) {
     const element = new TriangleElement(event.x, event.y)
-    this._renderer.addElement(element)
+    this._surfaceManager.addElement(element)
     this._currentElement = element
   }
 
@@ -19,7 +19,7 @@ export class TriangleToolController extends ToolController {
     if (this._currentElement) {
       this._currentElement.right = event.x
       this._currentElement.bottom = event.y
-      this._renderer.forceUpdate()
+      this._surfaceManager.forceUpdate()
     }
   }
 

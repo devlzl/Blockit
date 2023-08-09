@@ -2,9 +2,8 @@
 import { onMounted, ref, shallowRef, triggerRef } from 'vue'
 import PencilBox from './components/PencilBox.vue'
 import { SelectionManager } from './utils/SelectionManager'
-import { Page, BlockType } from '@store'
-import { EventEmitter } from '@store'
-import { Renderer } from '@visual'
+import { Page, BlockType, EventEmitter } from '@store'
+import { SurfaceManager } from '@visual'
 import { builtinBlockViews } from '@blocks'
 
 
@@ -17,8 +16,8 @@ const { page, pageBlock } = defineProps({
 const canvasRef = ref(null)
 const toolChangeEvent = new EventEmitter()
 onMounted(() => {
-  const renderer = new Renderer(canvasRef.value)
-  const selection = new SelectionManager(page, renderer, toolChangeEvent)
+  const surfaceManager = new SurfaceManager(canvasRef.value)
+  const selectionManager = new SelectionManager(page, surfaceManager, toolChangeEvent)
 })
 
 

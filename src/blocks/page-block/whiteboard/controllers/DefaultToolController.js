@@ -2,9 +2,9 @@ import { ToolController } from './_ToolController'
 
 
 export class DefaultToolController extends ToolController {
-  constructor(renderer, page) {
+  constructor(surfaceManager, page) {
     super()
-    this._renderer = renderer
+    this._surfaceManager = surfaceManager
     this._page = page
     this._currentElement = null
     this._offsetX = 0

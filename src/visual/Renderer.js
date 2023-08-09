@@ -1,8 +1,8 @@
 export class Renderer {
-  constructor(canvas) {
+  constructor(canvas, elements) {
     this._canvas = canvas
     this._context = canvas.getContext('2d')
-    this._elements = []
+    this._elements = elements
     this._shouldUpdate = false
     this._launch()
   }
@@ -39,11 +39,6 @@ export class Renderer {
   _launch() {
     this._resize()
     this._mainloop()
-  }
-
-  addElement(element) {
-    this._elements.push(element)
-    this._shouldUpdate = true
   }
 
   forceUpdate() {
