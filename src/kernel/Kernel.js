@@ -1,6 +1,5 @@
 import { EventService } from './service/EventService'
 import { RangeService } from './service/RangeService'
-import { AttributeService } from './service/AttributeService'
 import { DeltaService } from './service/DeltaService'
 import { EventEmitter } from '@store'
 
@@ -11,7 +10,6 @@ export class Kernel {
     this.rootElement = null
     this.rangeService = new RangeService(this)
     this.eventService = new EventService(this)
-    this.attributeService = new AttributeService(this)
     this.deltaService = new DeltaService(this)
     this.events = {
       deltaUpdate: new EventEmitter(),
