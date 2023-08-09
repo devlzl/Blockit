@@ -2,18 +2,19 @@ import { ToolController } from './_ToolController'
 
 
 export class DefaultToolController extends ToolController {
-  constructor(surfaceManager, page) {
+  constructor(surfaceManager, page, selectedChangeEvent) {
     super()
     this._surfaceManager = surfaceManager
     this._page = page
+    this._selectedChangeEvent = selectedChangeEvent
     this._currentElement = null
     this._offsetX = 0
     this._offsetY = 0
   }
 
   handleClick(event) {
-    const picked = this._surfaceManager.pick(event.x, event.y)
-    console.log('picked', picked)
+    const selected = this._surfaceManager.pick(event.x, event.y)
+    this._selectedChangeEvent.emit(selected)
   }
 
   handleMouseDown(event) {

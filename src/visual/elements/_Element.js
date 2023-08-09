@@ -14,3 +14,5 @@ export class Element {
     return element
   }
 }
+
+export const ElementType = Y.Map

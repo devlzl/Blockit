@@ -6,9 +6,9 @@ export class RectElement extends Element {
     const element = super()
     element.set('type', 'rect')
     element.set('left', left)
+    element.set('right', left)
     element.set('top', top)
-    element.set('width', 0)
-    element.set('height', 0)
+    element.set('bottom', top)
     element.set('radius', 2)
     return element
   }

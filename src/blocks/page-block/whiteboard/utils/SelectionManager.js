@@ -6,17 +6,17 @@ import { CircleToolController } from '../controllers/CircleToolController'
 
 
 export class SelectionManager {
-  constructor(page, surfaceManager, toolChangeEvent) {
+  constructor(page, surfaceManager, events) {
     this._currentToolType = 'default'
-    this._toolChangeEvent = toolChangeEvent
+    this._events = events
     this._controllers = {
-      default: new DefaultToolController(surfaceManager, page),
-      pen: new PenToolController(surfaceManager, toolChangeEvent),
-      rect: new RectToolController(surfaceManager, toolChangeEvent),
-      triangle: new TriangleToolController(surfaceManager, toolChangeEvent),
-      circle: new CircleToolController(surfaceManager, toolChangeEvent),
+      default: new DefaultToolController(surfaceManager, page, events.selectedChangeEvent),
+      pen: new PenToolController(surfaceManager, events.toolChangeEvent),
+      rect: new RectToolController(surfaceManager, events.toolChangeEvent),
+      triangle: new TriangleToolController(surfaceManager, events.toolChangeEvent),
+      circle: new CircleToolController(surfaceManager, events.toolChangeEvent),
     }
-    this._toolChangeEvent.on((type) => {
+    this._events.toolChangeEvent.on((type) => {
       this._currentToolType = type
     })
     this._bindEvents()
@@ -42,7 +42,7 @@ export class SelectionManager {
         document.removeEventListener(eventName.toLowerCase(), previousHandlerMap[eventName])
       })
     }
-    this._toolChangeEvent.on(() => {
+    this._events.toolChangeEvent.on(() => {
       _removeListener()
       _addListener()
     })

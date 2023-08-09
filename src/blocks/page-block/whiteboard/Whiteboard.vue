@@ -1,10 +1,11 @@
 <script setup>
-import { onMounted, ref, shallowRef, triggerRef } from 'vue'
+import { onMounted, ref, shallowRef, triggerRef, nextTick } from 'vue'
 import PencilBox from './components/PencilBox.vue'
 import { SelectionManager } from './utils/SelectionManager'
 import { Page, BlockType, EventEmitter } from '@store'
 import { SurfaceManager } from '@visual'
 import { builtinBlockViews } from '@blocks'
+import SelectedBox from './components/SelectedBox.vue'
 
 
 const { page, pageBlock } = defineProps({
@@ -14,16 +15,19 @@ const { page, pageBlock } = defineProps({
 
 
 const canvasRef = ref(null)
-const toolChangeEvent = new EventEmitter()
+const events = {
+  toolChangeEvent: new EventEmitter(),
+  selectedChangeEvent: new EventEmitter(),
+}
 onMounted(() => {
   const surfaceBlock = pageBlock.get('children').toArray().find(block => block.get('type') === 'surface')
   const surfaceManager = new SurfaceManager(canvasRef.value, surfaceBlock)
-  const selectionManager = new SelectionManager(page, surfaceManager, toolChangeEvent)
+  const selectionManager = new SelectionManager(page, surfaceManager, events)
 })
 
 
 function handleToolChange(type) {
-  toolChangeEvent.emit(type)
+  events.toolChangeEvent.emit(type)
 }
 
 
@@ -38,12 +42,20 @@ page.events.blockUpdate.on((update) => {
     triggerRef(noteBlocks)
   }
 })
+
+
+const selectedElement = ref(null)
+events.selectedChangeEvent.on(async (element) => {
+  selectedElement.value = null
+  await nextTick()
+  selectedElement.value = element
+})
 </script>
 
 <template>
   <div class="whiteboard">
     <canvas ref="canvasRef"></canvas>
-    <PencilBox @tool-change="handleToolChange" :toolChangeEvent="toolChangeEvent" />
+    <PencilBox @tool-change="handleToolChange" :toolChangeEvent="events.toolChangeEvent" />
     <div
       v-for="block of noteBlocks"
       class="note-block-container"
@@ -58,6 +70,7 @@ page.events.blockUpdate.on((update) => {
         :noteBlock="block">
       </component>
     </div>
+    <SelectedBox v-if="selectedElement" :selectedElement="selectedElement" />
   </div>
 </template>
 

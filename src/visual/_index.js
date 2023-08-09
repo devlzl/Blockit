@@ -1,5 +1,6 @@
 export { SurfaceManager } from './SurfaceManager'
 export { Renderer } from './Renderer'
+export * from './elements/_Element'
 export * from './elements/CircleElement'
 export * from './elements/PenElement'
 export * from './elements/RectElement'

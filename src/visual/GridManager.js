@@ -23,6 +23,6 @@ export class GridManager {
 
   pick(x, y) {
     // x(col), y(row) !
-    return this.grids[`${y}-${x}`]
+    return this.grids[`${y}-${x}`]?.slice(-1)[0]
   }
 }
