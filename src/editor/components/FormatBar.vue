@@ -71,6 +71,7 @@ page.events.selectionChange.on(handleActiveChange)
   padding: 10px;
   box-shadow: 1px 1px 5px lightgray;
   border-radius: 7px;
+  z-index: 1;
 }
 .format-button  {
   width: 30px;
