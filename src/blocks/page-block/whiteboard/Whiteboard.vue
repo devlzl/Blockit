@@ -43,7 +43,7 @@ page.events.blockUpdate.on((update) => {
 <template>
   <div class="whiteboard">
     <canvas ref="canvasRef"></canvas>
-    <PencilBox @tool-change="handleToolChange" />
+    <PencilBox @tool-change="handleToolChange" :toolChangeEvent="toolChangeEvent" />
     <div
       v-for="block of noteBlocks"
       class="note-block-container"

@@ -1,7 +1,11 @@
 <script setup>
 import { ref } from 'vue'
+import { EventEmitter } from '@store'
 
 
+const { toolChangeEvent } = defineProps({
+  toolChangeEvent: EventEmitter,
+})
 const emit = defineEmits(['tool-change'])
 
 
@@ -14,6 +18,9 @@ function changeTool(type) {
   }
   emit('tool-change', tool.value)
 }
+toolChangeEvent.on((type) => {
+  tool.value = type
+})
 function activeIcon(type) {
   return tool.value === type ? 'primary' : ''
 }
