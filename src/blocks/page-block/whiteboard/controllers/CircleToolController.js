@@ -19,8 +19,15 @@ export class CircleToolController extends ToolController {
   handleMouseMove(event) {
     if (this._currentElement) {
       this._currentElement.doc.transact(() => {
-        this._currentElement.set('right', event.x)
-        this._currentElement.set('bottom', event.y)
+        const left = this._currentElement.get('left')
+        const top = this._currentElement.get('top')
+        const offsetX = Math.abs(event.x - left)
+        const signX = event.x - left > 0 ? 1 : -1
+        const offsetY = Math.abs(event.y - top)
+        const signY = event.y - top > 0 ? 1 : -1
+        const diameter = Math.max(offsetX, offsetY)
+        this._currentElement.set('right', left + diameter * signX)
+        this._currentElement.set('bottom', top + diameter * signY)
       })
     }
   }

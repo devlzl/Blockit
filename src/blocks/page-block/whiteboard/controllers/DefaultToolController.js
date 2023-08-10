@@ -2,7 +2,7 @@ import { ToolController } from './_ToolController'
 
 
 function isVisualElement(element) {
-  return ['pen', 'rect', 'triangle', 'ciecle'].includes(element?.get('type'))
+  return ['pen', 'rect', 'triangle', 'circle'].includes(element?.get('type'))
 }
 
 

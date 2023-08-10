@@ -5,10 +5,14 @@ export class GridManager {
   }
 
   addElement(element) {
-    const minRow = element.get('top')
-    const maxRow = element.get('bottom')
-    const minCol = element.get('left')
-    const maxCol = element.get('right')
+    const top = element.get('top')
+    const bottom = element.get('bottom')
+    const left = element.get('left')
+    const right = element.get('right')
+    const minRow = Math.min(top, bottom)
+    const maxRow = Math.max(top, bottom)
+    const minCol = Math.min(left, right)
+    const maxCol = Math.max(left, right)
     const relatedGrips = this.elementGridsMap.get(element) ?? new Set()
     if (relatedGrips.size > 0) {
       relatedGrips.forEach(grid => grid.delete(element))

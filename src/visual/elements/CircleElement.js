@@ -22,7 +22,7 @@ export function circleRender(circleElement, context) {
 
   const x = (left + right) / 2
   const y = (top + bottom) / 2
-  const radius = Math.abs((right - left) / 2)
+  const radius = Math.max(Math.abs((right - left) / 2), Math.abs((bottom - top) / 2))
 
   context.save()
   context.lineWidth = 2

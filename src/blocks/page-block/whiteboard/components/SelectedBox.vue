@@ -6,15 +6,17 @@ import { ref } from 'vue'
 const { selectedElement } = defineProps({
   selectedElement: ElementType,
 })
-const left = ref(selectedElement.get('left'))
-const right = ref(selectedElement.get('right'))
-const top = ref(selectedElement.get('top'))
-const bottom = ref(selectedElement.get('bottom'))
+
+
+const [left, right] = [ref(selectedElement.get('left')), ref(selectedElement.get('right'))].sort((a, b) => a.value - b.value)
+const [top, bottom] = [ref(selectedElement.get('top')), ref(selectedElement.get('bottom'))].sort((a, b) => a.value - b.value)
 selectedElement.observeDeep(() => {
-  left.value = selectedElement.get('left')
-  right.value = selectedElement.get('right')
-  top.value = selectedElement.get('top')
-  bottom.value = selectedElement.get('bottom')
+  const [minX, maxX] = [selectedElement.get('left'), selectedElement.get('right')].sort((a, b) => a - b)
+  const [minY, maxY] = [selectedElement.get('top'), selectedElement.get('bottom')].sort((a, b) => a - b)
+  left.value = minX
+  right.value = maxX
+  top.value = minY
+  bottom.value = maxY
 })
 </script>
 
