@@ -52,6 +52,18 @@ kernel.events.lineBreak.on((data) => {
     data: data,
   })
 })
+kernel.events.lineDelete.on(() => {
+  page.events.lineDelete.emit({
+    blockId: textBlock.get('id'),
+  })
+})
+
+
+page.events.focus.on(({ blockId }) => {
+  if (blockId === textBlock.get('id')) {
+    kernel.focusEnd()
+  }
+})
 </script>
 
 <template>

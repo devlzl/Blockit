@@ -23,6 +23,9 @@ function handleInsertParagraph(kernel, data) {
 function handleDeleteContentBackward(kernel, data) {
   const { index, length } = kernel.getKernelRange()
   if (index === 0) {
+    if (kernel.yText.toString().length === 0) {
+      kernel.events.lineDelete.emit()
+    }
     return
   }
   if (length > 0) {

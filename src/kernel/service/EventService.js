@@ -53,9 +53,19 @@ export class EventService {
   mount() {
     // outer `contenteditable` will consume input events,
     // so cannot bind events to `this._kernel.rootElement`
-    document.addEventListener('selectionchange', this._onSelectionChange.bind(this))
-    document.addEventListener('beforeinput', this._onBeforeInput.bind(this))
-    document.addEventListener('compositionstart', this._onCompositionStart.bind(this))
-    document.addEventListener('compositionend', this._onCompositionEnd.bind(this))
+    const onSelectionChange = this._onSelectionChange.bind(this)
+    const onBeforeInput = this._onBeforeInput.bind(this)
+    const onCompositionStart = this._onCompositionStart.bind(this)
+    const onCompositionEnd =  this._onCompositionEnd.bind(this)
+    document.addEventListener('selectionchange', onSelectionChange)
+    document.addEventListener('beforeinput', onBeforeInput)
+    document.addEventListener('compositionstart', onCompositionStart)
+    document.addEventListener('compositionend', onCompositionEnd)
+    this._kernel.events.lineDelete.on(() => {
+      document.removeEventListener('selectionchange', onSelectionChange)
+      document.removeEventListener('beforeinput', onBeforeInput)
+      document.removeEventListener('compositionstart', onCompositionStart)
+      document.removeEventListener('compositionend', onCompositionEnd)
+    })
   }
 }

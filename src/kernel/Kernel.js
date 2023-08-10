@@ -15,6 +15,7 @@ export class Kernel {
       deltaUpdate: new EventEmitter(),
       selectionChange: new EventEmitter(),
       lineBreak: new EventEmitter(),
+      lineDelete: new EventEmitter(),
     }
     // 
     this.getKernelRange = this.rangeService.getKernelRange.bind(this.rangeService)
@@ -65,5 +66,10 @@ export class Kernel {
     this.formatText(kernelRange, {
       [attributeName]: !formatted,
     })
+  }
+
+  focusEnd() {
+    const range = this.toRange({ index: this.yText.length, length: 0 })
+    this.setRange(range)
   }
 }

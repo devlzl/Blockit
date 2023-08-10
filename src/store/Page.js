@@ -17,6 +17,8 @@ export class Page {
       selectionChange: new EventEmitter(),
       blockUpdate: new EventEmitter(),
       lineBreak: new EventEmitter(),
+      lineDelete: new EventEmitter(),
+      focus: new EventEmitter(),
     }
     this.selection = {
       kernels: new Set()
@@ -35,6 +37,19 @@ export class Page {
       const parent = this.getBlockById(parentId)
       const index = parent.get('children').toArray().indexOf(block) + 1
       this.addBlock('text', { text: new Text(data), initFocus: 'start' }, parentId, index)
+    })
+    this.events.lineDelete.on(({ blockId }) => {
+      const block = this.getBlockById(blockId)
+      const parentId = block.get('parentId')
+      const parent = this.getBlockById(parentId)
+      const index = parent.get('children').toArray().indexOf(block)
+      const previousBlock = parent.get('children').get(index - 1)
+      this.deleteBlock(blockId)
+      if (previousBlock) {
+        this.events.focus.emit({
+          blockId: previousBlock.get('id')
+        })
+      }
     })
   }
 
