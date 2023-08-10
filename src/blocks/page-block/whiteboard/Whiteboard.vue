@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, shallowRef, triggerRef, nextTick } from 'vue'
+import { onMounted, ref, shallowRef, triggerRef, nextTick, computed } from 'vue'
 import PencilBox from './components/PencilBox.vue'
 import { SelectionManager } from './utils/SelectionManager'
 import { Page, BlockType, EventEmitter } from '@store'
@@ -45,6 +45,10 @@ page.events.blockUpdate.on((update) => {
 
 
 const selectedElement = ref(null)
+const showSelectedElement = computed(() => {
+  const type = selectedElement.value?.get('type')
+  return ['rect', 'triangle', 'circle'].includes(type)
+})
 events.selectedChangeEvent.on(async (element) => {
   selectedElement.value = null
   await nextTick()
@@ -70,7 +74,7 @@ events.selectedChangeEvent.on(async (element) => {
         :noteBlock="block">
       </component>
     </div>
-    <SelectedBox v-if="selectedElement" :selectedElement="selectedElement" />
+    <SelectedBox v-if="showSelectedElement" :selectedElement="selectedElement" />
   </div>
 </template>
 
