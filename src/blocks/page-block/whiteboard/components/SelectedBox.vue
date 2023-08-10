@@ -1,14 +1,21 @@
 <script setup>
 import { ElementType } from '@visual'
+import { ref } from 'vue'
 
 
 const { selectedElement } = defineProps({
   selectedElement: ElementType,
 })
-const left = selectedElement.get('left')
-const right = selectedElement.get('right')
-const top = selectedElement.get('top')
-const bottom = selectedElement.get('bottom')
+const left = ref(selectedElement.get('left'))
+const right = ref(selectedElement.get('right'))
+const top = ref(selectedElement.get('top'))
+const bottom = ref(selectedElement.get('bottom'))
+selectedElement.observeDeep(() => {
+  left.value = selectedElement.get('left')
+  right.value = selectedElement.get('right')
+  top.value = selectedElement.get('top')
+  bottom.value = selectedElement.get('bottom')
+})
 </script>
 
 <template>
