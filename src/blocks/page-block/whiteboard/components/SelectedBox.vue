@@ -29,10 +29,10 @@ selectedElement.observeDeep(() => {
       width: `${right - left}px`,
       height: `${bottom - top}px`,
     }">
-    <div class="corner top-left" :style="{ top: '-8px', left: '-8px' }"></div>
-    <div class="corner top-right" :style="{ top: '-8px', right: '-8px' }"></div>
-    <div class="corner bottom-left" :style="{ bottom: '-8px', left: '-8px' }"></div>
-    <div class="corner bottom-right" :style="{ bottom: '-8px', right: '-8px' }"></div>
+    <div class="corner top left" :style="{ top: '-8px', left: '-8px' }"></div>
+    <div class="corner top right" :style="{ top: '-8px', right: '-8px' }"></div>
+    <div class="corner bottom left" :style="{ bottom: '-8px', left: '-8px' }"></div>
+    <div class="corner bottom right" :style="{ bottom: '-8px', right: '-8px' }"></div>
   </div>
 </template>
 
@@ -48,10 +48,10 @@ selectedElement.observeDeep(() => {
     background-color: white;
     border: 4px solid #4F90FF;
     border-radius: 50%;
-    &.top-left, &.bottom-right {
+    &.top.left, &.bottom.right {
       cursor: nwse-resize;
     }
-    &.top-right, &.bottom-left {
+    &.top.right, &.bottom.left {
       cursor: nesw-resize;
     }
   }

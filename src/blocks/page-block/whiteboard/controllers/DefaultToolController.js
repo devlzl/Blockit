@@ -13,9 +13,15 @@ export class DefaultToolController extends ToolController {
     this._page = page
     this._selectedChangeEvent = selectedChangeEvent
     this._currentElement = null
+    // drag
     this._dragging = false
     this._offsetX = 0
     this._offsetY = 0
+    // resize
+    this._resizing = false
+    this._startX = 0
+    this._startY = 0
+    this._corner = []
   }
 
   handleClick(event) {
@@ -40,6 +46,17 @@ export class DefaultToolController extends ToolController {
     } else if (target.classList.contains('selected-box')) {
       this._offsetX = event.x - this._currentElement.get('left')
       this._offsetY = event.y - this._currentElement.get('top')
+    } else if (target.classList.contains('corner')) {
+      this._resizing = true
+      this._startX = event.x
+      this._startY = event.y
+      this._origin = {
+        left: this._currentElement.get('left'),
+        right: this._currentElement.get('right'),
+        top: this._currentElement.get('top'),
+        bottom: this._currentElement.get('bottom'),
+      }
+      this._corner = Array.from(target.classList).filter(className => ['left', 'right', 'top', 'bottom'].includes(className))
     }
   }
 
@@ -55,16 +72,34 @@ export class DefaultToolController extends ToolController {
           }
         })
       } else if (isVisualElement(this._currentElement)) {
-        const left = event.x - this._offsetX
-        const top = event.y - this._offsetY
-        const width = this._currentElement.get('right') - this._currentElement.get('left')
-        const height = this._currentElement.get('bottom') - this._currentElement.get('top')
-        this._currentElement.doc.transact(() => {
-          this._currentElement.set('left', left)
-          this._currentElement.set('right', left + width)
-          this._currentElement.set('top', top)
-          this._currentElement.set('bottom', top + height)
-        })
+        if (this._resizing) {
+          const offsetX = event.x - this._startX
+          const offsetY = event.y - this._startY
+          this._currentElement.doc.transact(() => {
+            this._corner.forEach((direction) => {
+              if (direction === 'left') {
+                this._currentElement.set('left', this._origin.left + offsetX)
+              } else if (direction === 'right') {
+                this._currentElement.set('right', this._origin.right + offsetX)
+              } else if (direction === 'top') {
+                this._currentElement.set('top', this._origin.top + offsetY)
+              } else if (direction === 'bottom') {
+                this._currentElement.set('bottom', this._origin.bottom + offsetY)
+              }
+            })
+          })
+        } else {
+          const left = event.x - this._offsetX
+          const top = event.y - this._offsetY
+          const width = this._currentElement.get('right') - this._currentElement.get('left')
+          const height = this._currentElement.get('bottom') - this._currentElement.get('top')
+          this._currentElement.doc.transact(() => {
+            this._currentElement.set('left', left)
+            this._currentElement.set('right', left + width)
+            this._currentElement.set('top', top)
+            this._currentElement.set('bottom', top + height)
+          })
+        }
       }
     }
   }
@@ -74,6 +109,7 @@ export class DefaultToolController extends ToolController {
       this._surfaceManager.fillGrid(this._currentElement)
     }
     this._dragging = false
+    this._resizing = false
     this._currentElement = null
   }
 }
