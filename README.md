@@ -2,6 +2,7 @@
 
 Block-based collaborative rich text editor with whiteboard.
 
+[Try Blockit online](https://lzlme.github.io/Blockit/) 
 
 ## Features
 - [x] Text editing
